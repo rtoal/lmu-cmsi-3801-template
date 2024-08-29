@@ -70,27 +70,59 @@ def meaningful_line_count(file):
         raise FileNotFoundError("No such file")
 
 # Write your Quaternion class here
-class Quarternion():
+class Quaternion():
     def __init__(self, a, b, c, d):
-        self.a = a
-        self.b = b + "i"
-        self.c = c + "j"
-        self.d = d + "k"
+        self.a = float(a)
+        self.b = float(b)
+        self.c = float(c)
+        self.d = float(d)
     
     def __str__(self):
-        return
-    
+        local_a = self.a
+        local_b = self.b
+        local_c = self.c
+        local_d = self.d
+        if local_a == 0.0:
+            local_a = ""
+        if local_b == 0.0:
+            local_b = ""
+        if local_c == 0.0:
+            local_c = ""
+        if local_d == 0.0:
+            local_d = ""
 
-    def add():
-        return 
-    
+        if local_b is not "":
+            local_b = str(local_b) + "i"
+        if local_c is not "":
+            local_c = str(local_c) + "j"
+        if local_d is not "":
+            local_d = str(local_d) + "k"
 
-    def multiply():
-        return
+        return str(local_a) + local_b + local_c + local_d
+
+    def __add__(self, other):
+        if isinstance(other, Quaternion):
+            new_a = self.a + other.a
+            new_b = self.b + other.b
+            new_c = self.c + other.c
+            new_d = self.d + other.d
+            return Quaternion(new_a, new_b, new_c, new_d)
+
+    def __mul__(self, other):
+        if isinstance(other, Quaternion):
+            new_a = self.a * other.a
+            new_b = self.b * other.b
+            new_c = self.c * other.c
+            new_d = self.d * other.d
+            return Quaternion(new_a, new_b, new_c, new_d)
     
+    @property
+    def coefficients(self):
+        return self.a, self.b, self.c, self.d
     
-    def coefficients():
-        return
-    
-    def conjugate():
-        return
+    @property
+    def conjugate(self):
+        self.b *= -1
+        self.c *= -1
+        self.d *= -1
+        return Quaternion(self.a, self.b, self.c, self.d)
