@@ -67,7 +67,7 @@ def meaningful_line_count(file):
                 line_counter += 1
             return line_counter
     except FileNotFoundError:
-        raise FileNotFoundError("No such file")\
+        raise FileNotFoundError("No such file")
 
 # Write your Quaternion class here
 class Quarternion():
