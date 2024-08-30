@@ -77,28 +77,101 @@ class Quaternion():
         self.c = float(c)
         self.d = float(d)
     
+    def __eq__(self, other):
+        if isinstance(other, Quaternion):
+            if self.a == other.a:
+                pass
+            else:
+                return False
+            if self.b == other.b:
+                pass
+            else:
+                return False
+            if self.c == other.c:
+                pass
+            else:
+                return False
+            if self.d == other.d:
+                pass
+            else:
+                return False
+            return True
+    
     def __str__(self):
-        local_a = self.a
-        local_b = self.b
-        local_c = self.c
-        local_d = self.d
-        if local_a == 0.0:
+        local_a = str(self.a)
+        local_b = str(self.b)
+        local_c = str(self.c)
+        local_d = str(self.d)
+        if local_a == "0.0":
             local_a = ""
-        if local_b == 0.0:
+        if local_b == "0.0" or local_b == "-0.0":
             local_b = ""
-        if local_c == 0.0:
+        if local_c == "0.0" or local_c == "-0.0":
             local_c = ""
-        if local_d == 0.0:
+        if local_d == "0.0" or local_d == "-0.0":
             local_d = ""
 
-        if local_b is not "":
-            local_b = str(local_b) + "i"
-        if local_c is not "":
-            local_c = str(local_c) + "j"
-        if local_d is not "":
-            local_d = str(local_d) + "k"
+        if local_b != "":
+            if local_b == "1.0" or local_b == "-1.0":
+                if local_b == "-1.0":
+                    local_b = "-"
+                else:
+                    local_b = ""
+            local_b = local_b + "i"
+        if local_c != "":
+            if local_c == "1.0" or local_c == "-1.0":
+                if local_c == "-1.0":
+                    local_c = "-"
+                else:
+                    local_c = ""
+            local_c = local_c + "j"
+        if local_d != "":
+            if local_d == "1.0" or local_d == "-1.0":
+                if local_d == "-1.0":
+                    local_d = "-"
+                else:
+                    local_d = ""
+            local_d = local_d + "k"
+        
+        # needs to check if b is "", if that is, then check c, if that is then check d. if all are "" then pass.
 
-        return str(local_a) + local_b + local_c + local_d
+        if local_b == "":
+            if local_c == "":
+                if local_d == "":
+                    pass
+                else:
+                    if local_d[0] != "-" and local_a != "":
+                        local_a = local_a + "+"
+            else:
+                if local_c[0] != "-" and local_a != "":
+                    local_a = local_a + "+"
+        else:
+            if local_b[0] != "-" and local_a != "":
+                local_a = local_a + "+"
+
+        # if local_b == "" and local_c == "" and local_d == "":
+        #     pass
+        # else:
+        #     if local_b[0] != "-" and local_a != "":
+        #         local_a = local_a + "+"
+        if local_c == "":
+            if local_d == "":
+                pass
+            else:
+                if local_d[0] != "-" and local_a != "":
+                    local_a = local_a + "+"
+        else:
+            if local_c[0] != "-" and local_a != "":
+                local_a = local_a + "+"
+        if local_d == "":
+            pass
+        else:
+            if local_d[0] != "-" and local_c != "":
+                local_c += "+"
+        
+        print(local_a + local_b + local_c + local_d)
+
+        return local_a + local_b + local_c + local_d
 
     def __add__(self, other):
         if isinstance(other, Quaternion):
@@ -110,10 +183,10 @@ class Quaternion():
 
     def __mul__(self, other):
         if isinstance(other, Quaternion):
-            new_a = self.a * other.a
-            new_b = self.b * other.b
-            new_c = self.c * other.c
-            new_d = self.d * other.d
+            new_a = (self.a * other.a) - (self.b * other.b) - (self.c * other.c) - (self.d * other.d)
+            new_b = (self.a * other.b) + (self.b * other.a) + (self.c * other.d) - (self.d * other.c)
+            new_c = (self.a * other.c) - (self.b * other.d) + (self.c * other.a) + (self.d * other.b)
+            new_d = (self.a * other.d) + (self.b * other.c) - (self.c * other.b) + (self.d * other.a)
             return Quaternion(new_a, new_b, new_c, new_d)
     
     @property
@@ -122,7 +195,4 @@ class Quaternion():
     
     @property
     def conjugate(self):
-        self.b *= -1
-        self.c *= -1
-        self.d *= -1
-        return Quaternion(self.a, self.b, self.c, self.d)
+        return Quaternion(self.a, self.b * -1, self.c * -1, self.d * -1)
