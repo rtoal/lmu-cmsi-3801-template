@@ -17,14 +17,8 @@ export function change(amount) {
 
 // Write your first then lower case function here
 export const firstThenLowerCase = (a, p) => {
-  a[p]?.();
-  
-  for (let i = 0; i < a.length; i++) {
-    if (a[i][p]?.()) {
-      return a[i];
-    }
-  }
-  return undefined;
+  const solution = a.find(p);
+  return solution?.toLowerCase();
 }
 
 // Write your powers generator here
