@@ -14,6 +14,14 @@ function change(amount)
 end
 
 -- Write your first then lower case function here
+function first_then_lower_case(strings, predicate)
+  for idx = 0, #strings do
+    if strings[idx] ~= nil and predicate(strings[idx]) then
+      return string.lower(strings[idx])
+    end
+  end
+  return nil
+end
 
 -- Write your powers generator here
 
