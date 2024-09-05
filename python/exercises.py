@@ -15,13 +15,12 @@ def change(amount: int) -> dict[int, int]:
 
 
 # Write your first then lower case function here
+# TODO: double check that this function uses positional arguments. seems like it is
 def first_then_lower_case(strings: list[str], predicate: Callable[[str], bool]) -> Optional[str]:
   for idx in range(len(strings)):
     if strings[idx] != None and predicate(strings[idx]):
       return strings[idx].lower()
   return None
-
-
 
 # Write your powers generator here
 
