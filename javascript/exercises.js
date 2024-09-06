@@ -65,7 +65,7 @@ export async function meaningfulLineCount(filePath) {
   } catch (error) {
     throw error;
   } finally {
-    if (file) await file.close();
+    if (fileHandle) await fileHandle.close();
   }
 }
 
