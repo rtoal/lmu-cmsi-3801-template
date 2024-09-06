@@ -1,4 +1,5 @@
 import { open } from "node:fs/promises"
+import readline from "readline/promises"
 
 export function change(amount) {
   if (!Number.isInteger(amount)) {
@@ -22,11 +23,10 @@ export const firstThenLowerCase = (a, p) => {
 }
 
 // Write your powers generator here
-// failing
-export function* powersGenerator( {base, limit} ) {
+export function* powersGenerator( {ofBase, upTo} ) {
   let exponent = 0
-  while(base ** exponent <= limit) {
-    yield base ** exponent
+  while (ofBase ** exponent <= upTo) {
+    yield ofBase ** exponent;
     exponent++
   }
 }
@@ -45,30 +45,31 @@ export function say(word) {
 }
 
 // Write your line count function here
-// only first test passing
+// only first test passing. Getting error that says "Error: test could not be started because its parent finished"
 export async function meaningfulLineCount(filePath) {
-  let file;
-  let meaningfulLines = 0;
+  let fileHandle
   try {
-    file = await open(filePath, 'r')
-    const contents = await file.readFile('utf8')
-    const lines = contents.split('\n')
-    for (const line of lines) {
-      const trimmed = line.trim();
-      if (trimmed !== '' && !trimmed.startsWith('#')) {
-        meaningfulLines++
+    fileHandle = await open(filePath, 'r')
+    const r1 = readline.createInterface({
+      input: fileHandle.createReadStream(),
+      crlfDelay: Infinity
+    })
+    let count = 0
+    for await (const line of r1) {
+      const trimmedLine = line.trim()
+      if (trimmedLine !== '' && !trimmedLine.startsWith('#')) {
+        count++
       }
     }
+    return count
   } catch (error) {
     throw error;
   } finally {
     if (file) await file.close();
   }
-  return meaningfulLines
 }
 
 // Write your Quaternion class here
-// failing, put it together quickly
 export class Quaternion {
   constructor(a, b, c, d) {
     this.a = a
@@ -78,24 +79,48 @@ export class Quaternion {
     Object.freeze(this)
   }
 
-  coefficients() {
+  get coefficients() {
     return [this.a, this.b, this.c, this.d]
   }
 
-  conjugate() {
-    return [this.a, this.b * -1, this.c * -1, this.d * -1]
+  get conjugate() {
+    return new Quaternion(this.a, this.b * -1, this.c * -1, this.d * -1)
   }
 
-  plus (other) {
+  plus (q) {
+    return new Quaternion(this.a + q.a, this.b + q.b, this.c + q.c, this.d + q.d)
+  }
+
+  times (q) {
     return new Quaternion(
-      this.a + other.a,
-      this.b + other.b,
-      this.c + other.c,
-      this.d + other.d,
+      this.a * q.a - this.b * q.b - this.c * q.c - this.d * q.d,
+      this.a * q.b + this.b * q.a + this.c * q.d - this.d * q.c,
+      this.a * q.c - this.b * q.d + this.c * q.a + this.d * q.b,
+      this.a * q.d + this.b * q.c - this.c * q.b + this.d * q.a
     )
   }
-
-  times (other) {
-    // complicated formula, did not have time
+  
+  toString() {
+    const terms = [];
+    const components = [
+      [this.a, ''],
+      [this.b, 'i'],
+      [this.c, 'j'],
+      [this.d, 'k']
+    ];
+    for (let [value, unit] of components) {
+      if (value !== 0) {
+        if (value === 1 && unit !== '') {
+          terms.push(unit);
+        } else if (value === -1 && unit !== '') {
+          terms.push(`-${unit}`);
+        } else {
+          terms.push(`${value}${unit}`);
+        }
+      }
+    }
+    if (terms.length === 0) return '0';
+    return terms.join('+').replace(/\+-/g, '-');
   }
-};
+}
+
