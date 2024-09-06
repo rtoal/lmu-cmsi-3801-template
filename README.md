@@ -2,6 +2,59 @@
 
 Welcome!
 
+# Homework 1 (Scripting) Submission 
+
+*Collaborators: Cecilia Zaragoza, Lauren Campbell, Raihana Zahra, Z Anderson*
+
+### Description
+TBD
+
+
+**Lua**
+- Q1 (first then lower case): Cecilia
+- Q2 (powers generator): Lauren 
+- Q3 (say): Raihana 
+- Q4 (line count): Z
+- Q5 (Quaternion table): Cecilia
+  
+**Javascript**
+- Q1: Cecilia
+- Q2: Lauren
+- Q3: Raihana
+- Q4: Z
+- Q5: Lauren 
+
+**Python**
+- Q1: Cecilia
+- Q2: Lauren
+- Q3: Raihana
+- Q4: Z
+- Q5: ???
+
+# Homework 2 (Enterprise) Submission 
+
+TBD
+
+Java, Kotlin, Swift
+
+# Homework 3 (Theory) Submission 
+
+TBD
+
+TypeScript, OCaml, Hasketll
+
+# Homework 4 (Systems)
+
+TBD
+
+C, C++, Rust
+
+# Homework 5 (Concurrency)
+
+TBD
+
+Go
+
 ## Instructions
 
 Fork this repo for your homework submissions. Make sure your fork has a nice, descriptive name. Leaving the name as “lmu-cmsi-3801-template” is misleading, and keeping it indicates you are not taking sufficient pride in your work. After forking, **please replace the contents of this readme** file with information about your submissions, including the name(s) of the students, and a description of each assignment (as they are turned in).
