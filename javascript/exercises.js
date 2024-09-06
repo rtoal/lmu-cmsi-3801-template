@@ -28,7 +28,28 @@ export function firstThenLowerCase(strings, predicate) {
 // Write your powers generator here
 
 // Write your say function here
+export function say(text = undefined) {
+  /*
+  Chains multiple function calls and adding each word into an array, returning a sentence/phrase.
+  */ 
+  const sentence = []
 
+  function final_sentence(next_text = undefined) {
+    if (next_text === undefined) {
+      return sentence.join(" ")
+    } else {
+      sentence.push(next_text)
+    }
+    return final_sentence
+  }
+  if (text === undefined) {
+    return ""
+  }
+
+  sentence.push(text)
+  
+  return final_sentence
+}
 // Write your line count function here
 
 // Write your Quaternion class here
