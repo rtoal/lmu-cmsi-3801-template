@@ -1,7 +1,3 @@
-# Homework Template for CMSI 3801
-
-Welcome!
-
 # Homework 1 (Scripting) Submission 
 
 *Collaborators: Cecilia Zaragoza, Lauren Campbell, Raihana Zahra, Z Anderson*
@@ -43,13 +39,13 @@ TBD
 
 TypeScript, OCaml, Hasketll
 
-# Homework 4 (Systems)
+# Homework 4 (Systems) Submission
 
 TBD
 
 C, C++, Rust
 
-# Homework 5 (Concurrency)
+# Homework 5 (Concurrency) Submission
 
 TBD
 
