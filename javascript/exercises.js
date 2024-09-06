@@ -1,4 +1,5 @@
 import { open } from "node:fs/promises"
+import { readFile } from "node:fs/promises"
 
 export function change(amount) {
   if (!Number.isInteger(amount)) {
@@ -31,7 +32,7 @@ export function firstThenLowerCase(strings, predicate) {
 export function say(text = undefined) {
   /*
   Chains multiple function calls and adding each word into an array, returning a sentence/phrase.
-  */ 
+  */
   const sentence = []
 
   function final_sentence(next_text = undefined) {
@@ -47,25 +48,23 @@ export function say(text = undefined) {
   }
 
   sentence.push(text)
-  
+
   return final_sentence
 }
 // Write your line count function here
-export async function meaningfulLineCount(path) { 
+export async function meaningfulLineCount(path) {
+  // Aspects inspired by https://www.geeksforgeeks.org/node-js-filehandle-readlines-method/
   console.log("testing")
-  return (async () => { // Aspects inspired by https://www.geeksforgeeks.org/node-js-filehandle-readlines-method/
-    const file = await open(path);
-    count = 0
-    for await (const line of file.readLines()) {
-      line.trim()
-      if(line.length == 0 || line[0] == "#") {
-        continue
-      }
-      console.log(line)
+  const file = await open(path)
+    let count = 0
+  const fileString = await readFile(path, { encoding: "utf8"})
+  fileString.split("\n").forEach(line => {
+    line = line.trim()
+    if (!(line.length == 0 || line[0] == "#")) {
       count += 1
     }
-    return count
-  })();
+  });
+  return count
 }
 
 // Write your Quaternion class here
