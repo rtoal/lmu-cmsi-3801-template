@@ -28,5 +28,17 @@ end
 -- Write your say function here
 
 -- Write your line count function here
+function meaningful_line_count(path)
+  file = io.open(path)
+  count = 0
+  for line in file:lines() do 
+    line = line:gsub("%s+", "")
+    if not line.len == 0 or not line[1] == "#" then
+      count += 1
+    end
+  end
+  file.close()
+  return count
+end 
 
 -- Write your Quaternion table here
