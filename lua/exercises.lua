@@ -40,16 +40,41 @@ end
 -- Write your say function here
   function say(sentence)
     local words = {}
-    if sentence then
-      table.insert(words, sentence)
+    -- concatenation helper function 
+    local function combine(word)
+      -- instead of for loop, return the function to itself so that itll run again  
+      if word then
+            table.insert(words, word)
+            return combine 
+        else
+            return table.concat(words, " ")
+        end
     end
-    local output
 
-    for 
-
-  end
+    -- start the chain of words
+    if sentence then
+        table.insert(words, sentence)
+        return combine
+    else
+        return ""
+    end
+end
 
 -- Write your line count function here
-  --function meaningful_line_count(file)
+  function meaningful_line_count(file)
+    -- open file, if file can't be open throw an error, if it can be openned iterate over each line in the file, get rid of whitespace, if not empty add it
+    local f = io.open(file, "r")
+    local counter = 0
+    if not f then
+      error("Can't open file")
+    end
+    for line in file:lines() do
+      -- trime whitespace
+      line = line:match("^%s*(.-)%s*$")
+      if line ~= "" and not line:find("^#") then
+        counter = counter + 1
+    end
+    end
+  end
 
 -- Write your Quaternion table here
