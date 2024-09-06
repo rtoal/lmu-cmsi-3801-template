@@ -53,7 +53,7 @@ export function say(text = undefined) {
 // Write your line count function here
 export async function meaningfulLineCount(path) { 
   console.log("testing")
-  return (async () => { // Aspects inspired by https://www.geeksforgeeks.org/node-js-filehandle-readlines-method/
+  return (async () => { // Aspects influenced by https://www.geeksforgeeks.org/node-js-filehandle-readlines-method/
     const file = await open(path);
     count = 0
     for await (const line of file.readLines()) {
