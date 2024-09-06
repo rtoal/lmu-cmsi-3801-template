@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from collections.abc import Callable
 from typing import Optional
+import os
 
 
 def change(amount: int) -> dict[int, int]:
@@ -51,6 +52,18 @@ def say(text: Optional[str] = None) -> Callable:
 
 
 # Write your line count function here
-
+def meaningful_line_count(path):
+    try:
+        f = open(path, "r")
+    except:
+        raise FileNotFoundError('No such file')
+    count = 0
+    for line in f.readlines():
+        newLine = line.strip()
+        if len(newLine) == 0 or newLine[0] == "#":
+            continue
+        count += 1
+    f.close()
+    return count
 
 # Write your Quaternion class here

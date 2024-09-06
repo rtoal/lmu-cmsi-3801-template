@@ -51,5 +51,21 @@ export function say(text = undefined) {
   return final_sentence
 }
 // Write your line count function here
+export async function meaningfulLineCount(path) { 
+  console.log("testing")
+  return (async () => { // Aspects inspired by https://www.geeksforgeeks.org/node-js-filehandle-readlines-method/
+    const file = await open(path);
+    count = 0
+    for await (const line of file.readLines()) {
+      line.trim()
+      if(line.length == 0 || line[0] == "#") {
+        continue
+      }
+      console.log(line)
+      count += 1
+    }
+    return count
+  })();
+}
 
 // Write your Quaternion class here
