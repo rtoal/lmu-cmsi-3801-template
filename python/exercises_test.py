@@ -1,5 +1,5 @@
 from exercises import (
-    # first_then_lower_case,
+    first_then_lower_case,
     say,
     # powers_generator,
     # meaningful_line_count,
@@ -38,13 +38,13 @@ def expect_error(error_type, text, fun, *args):
 
 # Uncomment the following tests as you complete the exercises
 
-# suite("first_then_lower_case")
-# def nonempty(s): return s != ""
-# def length_greater_than_3(s): return len(s) > 3
-# expect(first_then_lower_case([], nonempty) is None)
-# expect(first_then_lower_case(["", "A", "B"], nonempty) == "a")
-# expect(first_then_lower_case(["", "A", "ABC"], length_greater_than_3) is None)
-# expect(first_then_lower_case(["ABC", "ABCD", "ABCDE"], length_greater_than_3) == "abcd")
+suite("first_then_lower_case")
+def nonempty(s): return s != ""
+def length_greater_than_3(s): return len(s) > 3
+expect(first_then_lower_case([], nonempty) is None)
+expect(first_then_lower_case(["", "A", "B"], nonempty) == "a")
+expect(first_then_lower_case(["", "A", "ABC"], length_greater_than_3) is None)
+expect(first_then_lower_case(["ABC", "ABCD", "ABCDE"], length_greater_than_3) == "abcd")
 
 suite("say")
 expect(say() == "")
