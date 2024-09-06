@@ -61,20 +61,23 @@ end
 end
 
 -- Write your line count function here
+-- open file, if file can't be open throw an error, if it can be openned iterate over each line in the file, get rid of whitespace, if not empty add it
   function meaningful_line_count(file)
-    -- open file, if file can't be open throw an error, if it can be openned iterate over each line in the file, get rid of whitespace, if not empty add it
-    local f = io.open(file, "r")
-    local counter = 0
-    if not f then
-      error("Can't open file")
-    end
-    for line in file:lines() do
-      -- trime whitespace
-      line = line:match("^%s*(.-)%s*$")
-      if line ~= "" and not line:find("^#") then
-        counter = counter + 1
-    end
-    end
+      -- Attempt to open the file for reading
+      local f, err = io.open(file, "r")
+      local counter = 0
+      if not f then
+          error("Can't open file: " .. err)
+      end
+      for line in f:lines() do
+        --whitespace strip
+          line = line:match("^%s*(.-)%s*$")
+          if line ~= "" and not line:find("^#") then
+              counter = counter + 1
+          end
+      end
+      f:close()
+      return counter
   end
 
 -- Write your Quaternion table here
