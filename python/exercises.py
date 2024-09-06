@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from collections.abc import Callable
+from typing import Optional
 
 
 def change(amount: int) -> dict[int, int]:
@@ -20,6 +21,28 @@ def change(amount: int) -> dict[int, int]:
 
 
 # Write your say function here
+def say(text: Optional[str] = None) -> Callable:
+    ''' 
+    Inner function chains the strings together to create final concatenated sentence. 
+    '''
+    sentence = []
+
+    def final_sentence(next_text: Optional[str] = None) -> str:
+        if next_text is None:
+            return " ".join(sentence)
+        else:
+            sentence.append(next_text)
+
+        return final_sentence
+    
+    if text is None:
+        return ""
+    
+    sentence.append(text)
+
+    return final_sentence
+
+            
 
 
 # Write your line count function here
