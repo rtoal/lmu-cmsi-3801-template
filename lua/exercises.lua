@@ -24,6 +24,15 @@ function first_then_lower_case(strings, predicate)
 end
 
 -- Write your powers generator here
+function powers_generator(base, limit)
+  return coroutine.create(function()
+    local power = 1
+    while power <= limit do
+      coroutine.yield(power)
+      power = power * base  
+    end
+  end)
+end
 
 -- Write your say function here
 function say(text)
