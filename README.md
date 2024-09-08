@@ -1,4 +1,6 @@
-# Homework 1 (Scripting) Submission 
+# CMSI 3801 Homework
+
+## Homework 1 (Scripting) Submission 
 
 *Collaborators: Cecilia Zaragoza, Lauren Campbell, Raihana Zahra, Z Anderson*
 
@@ -27,31 +29,31 @@ TBD
 - Q4: Z
 - Q5: ???
 
-# Homework 2 (Enterprise) Submission 
+## Homework 2 (Enterprise) Submission 
 
 TBD
 
 Java, Kotlin, Swift
 
-# Homework 3 (Theory) Submission 
+## Homework 3 (Theory) Submission 
 
 TBD
 
 TypeScript, OCaml, Hasketll
 
-# Homework 4 (Systems) Submission
+## Homework 4 (Systems) Submission
 
 TBD
 
 C, C++, Rust
 
-# Homework 5 (Concurrency) Submission
+## Homework 5 (Concurrency) Submission
 
 TBD
 
 Go
 
-## Instructions
+## Original Instructions for Reference
 
 Fork this repo for your homework submissions. Make sure your fork has a nice, descriptive name. Leaving the name as “lmu-cmsi-3801-template” is misleading, and keeping it indicates you are not taking sufficient pride in your work. After forking, **please replace the contents of this readme** file with information about your submissions, including the name(s) of the students, and a description of each assignment (as they are turned in).
 

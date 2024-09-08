@@ -64,7 +64,7 @@ function meaningful_line_count(path)
   for line in file:lines() do 
     line = line:gsub("%s+", "")
     if not line.len == 0 or not line[1] == "#" then
-      count += 1
+      count = count + 1
     end
   end
   file.close()
