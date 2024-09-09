@@ -58,17 +58,24 @@ function say(text)
 end
 
 -- Write your line count function here
-function meaningful_line_count(path)
-  file = io.open(path)
-  count = 0
-  for line in file:lines() do 
-    line = line:gsub("%s+", "")
-    if not line.len == 0 or not line[1] == "#" then
-      count = count + 1
+function meaningful_line_count(filepath)
+  linecount = 0
+  file = io.open(filepath, "r")
+
+  if file == nil then 
+    error("No such file")
+  end
+  
+  for line in file:lines() do
+    line = line:match("^%s*(.-)%s*$")
+
+    if (line ~= "" and not line:match("^#")) then
+        linecount = linecount + 1
     end
   end
-  file.close()
-  return count
-end 
+
+  file:close()    
+  return linecount
+end
 
 -- Write your Quaternion table here
