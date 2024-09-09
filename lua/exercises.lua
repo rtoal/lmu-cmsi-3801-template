@@ -81,3 +81,27 @@ end
   end
 
 -- Write your Quaternion table here
+
+local input = io.read() 
+Quaternion = {}
+for number in string.gmatch(input, "[^%s]+") do
+    table.insert(Quaternion, number)
+end
+
+function tostring()
+  local output = ""
+  local var = {"", "i", "j", "k"}
+  local counter = 1
+  for key,value in next, Quaternion, nil do 
+    print(key)
+    output = (output.." "..value.." "..var[counter].." ")
+    counter = counter + 1
+  end
+  return output
+end
+
+function add()
+  
+end
+
+
