@@ -75,3 +75,74 @@ export async function meaningfulLineCount(path) {
 }
 
 // Write your Quaternion class here
+export class Quaternion {
+  constructor(a, b ,c ,d) {
+    this.a = a;
+    this.b = b;
+    this.c = c;
+    this.d = d;
+    Object.freeze(this);
+  }
+  plus(q) {
+    return new Quaternion(this.a + q.a, this.b + q.b, this.c + q.c, this.d + q.d);
+  }
+
+  times(q) {
+    return new Quaternion(((this.a * q.a) - (this.b * q.b) - (this.c * q.c) - (this.d * q.d)),
+                          ((this.a * q.b) + (this.b * q.a) + (this.c * q.d) - (this.d * q.c)),
+                          ((this.a * q.c) - (this.b * q.d) + (this.c * q.a) + (this.d * q.b)),
+                          ((this.a * q.d) + (this.b * q.c) - (this.c * q.b) + (this.d * q.a)));
+  }
+
+  get coefficients() {
+    return [this.a, this.b, this.c, this.d];
+  }
+  get conjugate() {
+    return new Quaternion(this.a, (-1 * this.b), (-1 * this.c), (-1 * this.d))
+  }
+
+  equals(q) {
+    return this.a === q.a, this.b === q.b, this.c === q.c, this.d === q.d
+  }
+
+  toString() {
+    let output = "";
+
+    if (this.a !== 0) { 
+      output += `${this.a}` 
+    };
+
+    if (this.b !== 0) { 
+      if (this.b === 1) { 
+        if (output === "") { output += "i" } else { output += "+i"}
+      } else if (this.b > 1) { 
+        output += "+" + `${this.b}i` 
+      } else if (this.b === -1) { 
+        output += "-i" 
+      } else { output += `${this.b}i` }
+    };
+
+    if (this.c !== 0) { 
+      if (this.c === 1) { 
+        if (output === "") { output += "j" } else { output += "+j"}
+      } else if (this.c > 1) { 
+        output += "+" + `${this.c}j` 
+      } else if (this.c === -1) { 
+        output += "-j" 
+      } else { output += `${this.c}j` }
+    };
+
+    
+    if (this.d !== 0) { 
+      if (this.d === 1) { 
+        if (output === "") { output += "k" } else { output += "+k"}
+      } else if (this.d > 1) { 
+        output += "+" + `${this.d}k` 
+      } else if (this.d === -1) { 
+        output += "-k" 
+      } else { output += `${this.d}k` }
+    };
+
+    return output || "0";
+  }
+}
