@@ -16,22 +16,19 @@ export function change(amount) {
   return counts
 }
 
-// Write your first then lower case function here
 export const firstThenLowerCase = (a, p) => {
   const solution = a.find(p)
   return solution?.toLowerCase()
 }
 
-// Write your powers generator here
 export function* powersGenerator( {ofBase, upTo} ) {
   let exponent = 0
   while (ofBase ** exponent <= upTo) {
-    yield ofBase ** exponent;
+    yield ofBase ** exponent
     exponent++
   }
 }
 
-// Write your say function here
 export function say(word) {
   let words = []
   function chain(nextWord) {
@@ -44,8 +41,6 @@ export function say(word) {
   return chain(word)
 }
 
-// Write your line count function here
-// only first test passing. Getting error that says "Error: test could not be started because its parent finished"
 export async function meaningfulLineCount(filePath) {
   let fileHandle
   try {
@@ -63,13 +58,12 @@ export async function meaningfulLineCount(filePath) {
     }
     return count
   } catch (error) {
-    throw error;
+    throw error
   } finally {
     if (fileHandle) await fileHandle.close();
   }
 }
 
-// Write your Quaternion class here
 export class Quaternion {
   constructor(a, b, c, d) {
     this.a = a
@@ -101,26 +95,28 @@ export class Quaternion {
   }
   
   toString() {
-    const terms = [];
+    const terms = []
     const components = [
       [this.a, ''],
       [this.b, 'i'],
       [this.c, 'j'],
       [this.d, 'k']
     ];
+
     for (let [value, unit] of components) {
       if (value !== 0) {
         if (value === 1 && unit !== '') {
-          terms.push(unit);
+          terms.push(unit)
         } else if (value === -1 && unit !== '') {
-          terms.push(`-${unit}`);
+          terms.push(`-${unit}`)
         } else {
-          terms.push(`${value}${unit}`);
+          terms.push(`${value}${unit}`)
         }
       }
     }
-    if (terms.length === 0) return '0';
-    return terms.join('+').replace(/\+-/g, '-');
+
+    if (terms.length === 0) return '0'
+    return terms.join('+').replace(/\+-/g, '-')
   }
 }
 
