@@ -48,7 +48,7 @@ function say(text)
       table.insert(sentence, next_text)
     end
     return final_sentence
-  end 
+  end
   if text == nil then
     return ""
   end
@@ -65,7 +65,7 @@ function meaningful_line_count(filepath)
   if file == nil then 
     error("No such file")
   end
-  
+
   for line in file:lines() do
     line = line:match("^%s*(.-)%s*$")
 
