@@ -73,34 +73,31 @@ def meaningful_line_count(path):
 
 # Write your Quaternion class here
 @dataclass (frozen = True)
-class Quaternion:
-    def __init_subclass__(self, a, b, c, d):
-        self.a = a
-        self.b = b
-        self.c = c
-        self.d = d
-    
+class Quaternion():
+    a: int
+    b: int
+    c: int
+    d: int
+
     def __add__(self, q):
-        return Quaternion(self.a + q.a, self.b +q.b, self.c + q.c, self.d + q.d)
+        return Quaternion(self.a + q.a, self.b + q.b, self.c + q.c, self.d + q.d)
     
     def __mul__(self, q):
         return Quaternion(((self.a * q.a) - (self.b * q.b) - (self.c * q.c) - (self.d * q.d)),
                           ((self.a * q.b) + (self.b * q.a) + (self.c * q.d) - (self.d * q.c)),
                           ((self.a * q.c) - (self.b * q.d) + (self.c * q.a) + (self.d * q.b)),
                           ((self.a * q.d) + (self.b * q.c) - (self.c * q.b) + (self.d * q.a)))
-
     
-
     @property 
     def coefficients(self):
-        return [self.a, self.b, self.c, self.d]
+        return (self.a, self.b, self.c, self.d)
 
     @property
     def conjugate(self):
         return Quaternion(self.a, (-1 * self.b), (-1 * self.c), (-1 * self.d))
 
     def __eq__(self, q):
-        return self.a == q.a, self.b == q.b, self.c == q.c, self.d == q.d
+        return self.a == q.a and self.b == q.b and self.c == q.c and self.d == q.d
     
     def __str__(self):
         output = ""
@@ -147,6 +144,6 @@ class Quaternion:
             else:
                 output += f'{self.d}k'
 
-        return output or 0
+        return output or "0"
     
 
