@@ -117,7 +117,8 @@ Quaternion = (function (class)
             coefficient_formatted = "+"
           elseif coefficient == -1 and basis_vector ~= "" then
             coefficient_formatted = "-"
-          elseif coefficient < 0 then
+          else
+            -- number formatted is the number itself if number negative or if basis_vector == ""
             coefficient_formatted = tostring(coefficient)
           end
           if coefficient ~= 0 then
