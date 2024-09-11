@@ -87,7 +87,6 @@ Quaternion = (function (class)
           return {self.a, self.b, self.c, self.d}
         end,
         conjugate = function(self)
-          -- TODO: Implement conjugate
           return class.new(self.a, -self.b, -self.c, -self.d)
         end
       },
@@ -111,17 +110,17 @@ Quaternion = (function (class)
         local quaternion_string = ""
         -- get formatted coefficient and remove 0, 1.0, or -1.0 so that either value doesn't show, just coefficient, or just negative coefficient
         function get_num_remove_digit(coefficient, basis_vector)
-          coefficient_formatted = string.format("%.1f", coefficient)
+          coefficient_formatted = ""
           if coefficient > 1 and basis_vector ~= "" then
-            coefficient_formatted = "+" .. coefficient_formatted
-            return coefficient_formatted .. basis_vector
-          end
-          if string.format("%.1f", coefficient_formatted) == "1.0" and basis_vector ~= "" then
-            coefficient_formatted = ""
-          elseif string.format("%.1f", coefficient_formatted) == "-1.0" and basis_vector ~= "" then
+            coefficient_formatted = "+" .. tostring(coefficient)
+          elseif coefficient == 1 and basis_vector ~= "" then
+            coefficient_formatted = "+"
+          elseif coefficient == -1 and basis_vector ~= "" then
             coefficient_formatted = "-"
+          elseif coefficient < 0 then
+            coefficient_formatted = tostring(coefficient)
           end
-          if coefficient_formatted ~= "0.0" then
+          if coefficient ~= 0 then
             return coefficient_formatted .. basis_vector
           end
           return ""
@@ -131,7 +130,12 @@ Quaternion = (function (class)
         quaternion_string = quaternion_string .. get_num_remove_digit(self.c, "j")
         quaternion_string = quaternion_string .. get_num_remove_digit(self.d, "k")
         -- learned how to remove trailing spaces from bentasker: https://snippets.bentasker.co.uk/page-1706031030-Trim-whitespace-from-string-LUA.html
-        return quaternion_string:match'^()%s*$' and '' or quaternion_string:match'^%s*(.*%S)'
+        if quaternion_string ~= "" then
+          quaternion_string = quaternion_string:gsub("^%+", "")
+          return quaternion_string:match'^()%s*$' and '' or quaternion_string:match'^%s*(.*%S)'
+        else
+          return "0"
+        end
       end
     })
     end
