@@ -35,6 +35,8 @@ def powers_generator(*, base: int, limit: int):
 def say(text: Optional[str] = None) -> Callable:
     ''' 
     Inner function chains the strings together to create final concatenated sentence. 
+
+    String concatenation guide to use .join method: https://www.digitalocean.com/community/tutorials/python-string-concatenation
     '''
     sentence = []
 
