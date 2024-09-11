@@ -75,6 +75,7 @@ export async function meaningfulLineCount(path) {
 }
 
 // Write your Quaternion class here
+//learned how to do Quaternion math from this lecture document: https://www.math.stonybrook.edu/~oleg/courses/mat150-spr16/lecture-5.pdf
 export class Quaternion {
   constructor(a, b ,c ,d) {
     this.a = a;
@@ -105,44 +106,15 @@ export class Quaternion {
     return this.a === q.a, this.b === q.b, this.c === q.c, this.d === q.d
   }
 
+  //if # is not 0 -> if # is positive and not the first term return + else '', case handling for 1 and -1, then adding coefficient at the end
   toString() {
-    let output = "";
+    let output = []
+  
+    if (this.a !== 0) { output.push(`${this.a}`) }
+    if (this.b !== 0) { output.push(`${this.b > 0 && output.length > 0 ? '+': ''}${this.b === 1 ? '' : this.b === -1 ? '-' : this.b}i`) } 
+    if (this.c !== 0) { output.push(`${this.c > 0 && output.length > 0 ? '+': ''}${this.c === 1 ? '' : this.c === -1 ? '-' : this.c}j`) }
+    if (this.d !== 0) { output.push(`${this.d > 0 && output.length > 0 ? '+': ''}${this.d === 1 ? '' : this.d === -1 ? '-' : this.d}k`) }
 
-    if (this.a !== 0) { 
-      output += `${this.a}` 
-    };
-
-    if (this.b !== 0) { 
-      if (this.b === 1) { 
-        if (output === "") { output += "i" } else { output += "+i"}
-      } else if (this.b > 1) { 
-        output += "+" + `${this.b}i` 
-      } else if (this.b === -1) { 
-        output += "-i" 
-      } else { output += `${this.b}i` }
-    };
-
-    if (this.c !== 0) { 
-      if (this.c === 1) { 
-        if (output === "") { output += "j" } else { output += "+j"}
-      } else if (this.c > 1) { 
-        output += "+" + `${this.c}j` 
-      } else if (this.c === -1) { 
-        output += "-j" 
-      } else { output += `${this.c}j` }
-    };
-
-    
-    if (this.d !== 0) { 
-      if (this.d === 1) { 
-        if (output === "") { output += "k" } else { output += "+k"}
-      } else if (this.d > 1) { 
-        output += "+" + `${this.d}k` 
-      } else if (this.d === -1) { 
-        output += "-k" 
-      } else { output += `${this.d}k` }
-    };
-
-    return output || "0";
+    return output.join('') || "0";
   }
 }
