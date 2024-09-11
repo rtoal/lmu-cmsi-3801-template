@@ -112,10 +112,14 @@ Quaternion = (function (class)
         -- get formatted coefficient and remove 0, 1.0, or -1.0 so that either value doesn't show, just coefficient, or just negative coefficient
         function get_num_remove_digit(coefficient, basis_vector)
           coefficient_formatted = string.format("%.1f", coefficient)
-          if string.format("%.1f", coefficient_formatted) == "1.0" then
+          if coefficient > 1 and basis_vector ~= "" then
+            coefficient_formatted = "+" .. coefficient_formatted
+            return coefficient_formatted .. basis_vector
+          end
+          if string.format("%.1f", coefficient_formatted) == "1.0" and basis_vector ~= "" then
             coefficient_formatted = ""
-          elseif string.format("%.1f", coefficient_formatted) == "-1.0" then
-            coefficient_formatted = quaternion_string .. "-"
+          elseif string.format("%.1f", coefficient_formatted) == "-1.0" and basis_vector ~= "" then
+            coefficient_formatted = "-"
           end
           if coefficient_formatted ~= "0.0" then
             return coefficient_formatted .. basis_vector
