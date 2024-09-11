@@ -49,9 +49,9 @@ function say(text)
     end
     return final_sentence
   end 
-  if text == nil then 
+  if text == nil then
     return ""
-  end 
+  end
 
   table.insert(sentence, text)
   return final_sentence
@@ -79,3 +79,57 @@ function meaningful_line_count(filepath)
 end
 
 -- Write your Quaternion table here
+Quaternion = (function (class)
+  class.new = function (a, b, c, d)
+    return setmetatable({a = a, b = b, c = c, d = d}, {
+      __index = {
+        coefficients = function(self)
+          return {self.a, self.b, self.c, self.d}
+        end,
+        conjugate = function(self)
+          -- TODO: Implement conjugate
+          return class.new(self.a, -self.b, -self.c, -self.d)
+        end
+      },
+      __add = function(self, other_quat)
+        return class.new(self.a + other_quat.a, self.b + other_quat.b, self.c + other_quat.c, self.d + other_quat.d)
+      end,
+      __sub = function(self, other_quat)
+        return class.new(self.a - other_quat.a, self.b - other_quat.b, self.c - other_quat.c, self.d - other_quat.d)
+      end,
+      __mul = function(self, other_quat)
+        -- learned how to multiply quaternions from Stack Overflow: https://stackoverflow.com/questions/19956555/how-to-multiply-two-quaternions
+        return class.new(self.a * other_quat.a - self.b * other_quat.b - self.c * other_quat.c - self.d * other_quat.d,  -- 1
+        self.a * other_quat.b + self.b * other_quat.a + self.c * other_quat.d - self.d * other_quat.c,  -- i
+        self.a * other_quat.c - self.b * other_quat.d + self.c * other_quat.a + self.d * other_quat.b,  -- j
+        self.a * other_quat.d + self.b * other_quat.c - self.c * other_quat.b + self.d * other_quat.a)  -- k 
+      end,
+      __eq = function(self, other_quat)
+        return self.a == other_quat.a and self.b == other_quat.b and self.c == other_quat.c and self.d == other_quat.d
+      end,
+      __tostring = function(self)
+        local quaternion_string = ""
+        -- get formatted coefficient and remove 0, 1.0, or -1.0 so that either value doesn't show, just coefficient, or just negative coefficient
+        function get_num_remove_digit(coefficient, basis_vector)
+          coefficient_formatted = string.format("%.1f", coefficient)
+          if string.format("%.1f", coefficient_formatted) == "1.0" then
+            coefficient_formatted = ""
+          elseif string.format("%.1f", coefficient_formatted) == "-1.0" then
+            coefficient_formatted = quaternion_string .. "-"
+          end
+          if coefficient_formatted ~= "0.0" then
+            return coefficient_formatted .. basis_vector
+          end
+          return ""
+        end
+        quaternion_string = quaternion_string .. get_num_remove_digit(self.a, "")
+        quaternion_string = quaternion_string .. get_num_remove_digit(self.b, "i")
+        quaternion_string = quaternion_string .. get_num_remove_digit(self.c, "j")
+        quaternion_string = quaternion_string .. get_num_remove_digit(self.d, "k")
+        -- learned how to remove trailing spaces from bentasker: https://snippets.bentasker.co.uk/page-1706031030-Trim-whitespace-from-string-LUA.html
+        return quaternion_string:match'^()%s*$' and '' or quaternion_string:match'^%s*(.*%S)'
+      end
+    })
+    end
+  return class
+end)({})
