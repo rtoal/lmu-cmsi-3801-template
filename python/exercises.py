@@ -74,23 +74,79 @@ def meaningful_line_count(path):
 # Write your Quaternion class here
 @dataclass (frozen = True)
 class Quaternion:
-    a: int
-    b: int
-    c: int
-    d: int
+    def __init_subclass__(self, a, b, c, d):
+        self.a = a
+        self.b = b
+        self.c = c
+        self.d = d
+    
+    def __add__(self, q):
+        return Quaternion(self.a + q.a, self.b +q.b, self.c + q.c, self.d + q.d)
+    
+    def __mul__(self, q):
+        return Quaternion(((self.a * q.a) - (self.b * q.b) - (self.c * q.c) - (self.d * q.d)),
+                          ((self.a * q.b) + (self.b * q.a) + (self.c * q.d) - (self.d * q.c)),
+                          ((self.a * q.c) - (self.b * q.d) + (self.c * q.a) + (self.d * q.b)),
+                          ((self.a * q.d) + (self.b * q.c) - (self.c * q.b) + (self.d * q.a)))
+
+    
 
     @property 
-    def __add__(q):
-        return None
+    def coefficients(self):
+        return [self.a, self.b, self.c, self.d]
 
     @property
-    def __multiply__(q):
-        return None
+    def conjugate(self):
+        return Quaternion(self.a, (-1 * self.b), (-1 * self.c), (-1 * self.d))
 
-    # def __eq__:
-    #     return None
+    def __eq__(self, q):
+        return self.a == q.a, self.b == q.b, self.c == q.c, self.d == q.d
     
-    # def __str__:
-    #     return None
+    def __str__(self):
+        output = ""
+
+        if self.a != 0:
+            output += f'{self.a}'
+
+        if self.b != 0:
+            if self.b == 1:
+                if output == "":
+                    output += "i"
+                else:
+                    output += "+i"
+            elif self.b > 1:
+                output += "+" + f'{self.b}i'
+            elif self.b == -1:
+                output += "-i"
+            else:
+                output += f'{self.b}i'
+
+        if self.c != 0:
+            if self.c == 1:
+                if output == "":
+                    output += "j"
+                else:
+                    output += "+j"
+            elif self.c > 1:
+                output += "+" + f'{self.c}j'
+            elif self.c == -1:
+                output += "-j"
+            else:
+                output += f'{self.c}j'
+                
+        if self.d != 0:
+            if self.d == 1:
+                if output == "":
+                    output += "k"
+                else:
+                    output += "+k"
+            elif self.d > 1:
+                output += "+" + f'{self.d}k'
+            elif self.d == -1:
+                output += "-k"
+            else:
+                output += f'{self.d}k'
+
+        return output or 0
     
 
