@@ -53,7 +53,9 @@ def say(text: Optional[str] = None) -> Callable | str:
     return final_sentence
 
 # Write your line count function here
-def meaningful_line_count(path):
+def meaningful_line_count(path: str) -> int:
+    path = os.path.join(os.path.dirname(__file__), "..", path)
+
     try:
         f = open(path, "r")
     except:
