@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from collections.abc import Callable
+from typing import Callable, Optional
 import os
 
 def change(amount: int) -> dict[int, int]:
