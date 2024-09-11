@@ -72,3 +72,25 @@ def meaningful_line_count(path):
     return count
 
 # Write your Quaternion class here
+@dataclass (frozen = True)
+class Quaternion:
+    a: int
+    b: int
+    c: int
+    d: int
+
+    @property 
+    def __add__(q):
+        return None
+
+    @property
+    def __multiply__(q):
+        return None
+
+    # def __eq__:
+    #     return None
+    
+    # def __str__:
+    #     return None
+    
+
