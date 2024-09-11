@@ -14,9 +14,7 @@ def change(amount: int) -> dict[int, int]:
         counts[denomination], remaining = divmod(remaining, denomination)
     return counts
 
-
 # Write your first then lower case function here
-# TODO: double check that this function uses positional arguments. seems like it is
 def first_then_lower_case(strings: list[str], predicate: Callable[[str], bool]) -> Optional[str]:
   for idx in range(len(strings)):
     if strings[idx] != None and predicate(strings[idx]):
@@ -26,21 +24,20 @@ def first_then_lower_case(strings: list[str], predicate: Callable[[str], bool]) 
 # Write your powers generator here
 def powers_generator(*, base: int, limit: int):
     power: int = 1
-    while power <= limit: 
+    while power <= limit:
         yield power
         power = power * base
 
-
 # Write your say function here
-def say(text: Optional[str] = None) -> Callable:
+def say(text: Optional[str] = None) -> Callable | str:
     ''' 
     Inner function chains the strings together to create final concatenated sentence. 
 
     String concatenation guide to use .join method: https://www.digitalocean.com/community/tutorials/python-string-concatenation
     '''
-    sentence = []
+    sentence: list[str] = []
 
-    def final_sentence(next_text: Optional[str] = None) -> str:
+    def final_sentence(next_text: Optional[str] = None) -> str | Callable:
         if next_text is None:
             return " ".join(sentence)
         else:
@@ -55,15 +52,12 @@ def say(text: Optional[str] = None) -> Callable:
 
     return final_sentence
 
-            
-
-
 # Write your line count function here
-def meaningful_line_count(path):
+def meaningful_line_count(path: str) -> int:
     try:
         f = open(path, "r")
     except:
-        raise FileNotFoundError('No such file')
+        raise FileNotFoundError("No such file")
     count = 0
     for line in f.readlines():
         newLine = line.strip()
@@ -147,5 +141,3 @@ class Quaternion():
                 output += f'{self.d}k'
 
         return output or "0"
-    
-
