@@ -58,12 +58,12 @@ export function say(text = undefined) {
 
   return final_sentence
 }
+
 // Write your line count function here
 export async function meaningfulLineCount(path) {
-  // Aspects inspired by https://www.geeksforgeeks.org/node-js-filehandle-readlines-method/
-  console.log("testing")
+  // Learned how to read file from: https://www.geeksforgeeks.org/node-js-filehandle-readlines-method/
   const file = await open(path)
-    let count = 0
+  let count = 0
   const fileString = await readFile(path, { encoding: "utf8"})
   fileString.split("\n").forEach(line => {
     line = line.trim()
@@ -75,7 +75,7 @@ export async function meaningfulLineCount(path) {
 }
 
 // Write your Quaternion class here
-//learned how to do Quaternion math from this lecture document: https://www.math.stonybrook.edu/~oleg/courses/mat150-spr16/lecture-5.pdf
+// learned how to do Quaternion math from this lecture document: https://www.math.stonybrook.edu/~oleg/courses/mat150-spr16/lecture-5.pdf
 export class Quaternion {
   constructor(a, b ,c ,d) {
     this.a = a;

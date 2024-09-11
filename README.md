@@ -6,6 +6,7 @@
 
 ### Description
 TBD
++1 Homework point because Cecilia helped Dr. Toal in-class by pointing out how to call a function on a Vector object in Javascript on 9/11/24.
 
 
 **Lua**
