@@ -14,46 +14,40 @@ def change(amount: int) -> dict[int, int]:
 
 
 # Write your first then lower case function here
-def first_then_lower_case(strings: list[str], predicate: Callable[[str], bool]) -> str | None:
-    if not isinstance(strings, list) or not all(isinstance(s, str) for s in strings):
-        raise TypeError('First argument must be a list of strings')
-    
-    if not callable(predicate):
-        raise TypeError('Second argument must be a callable predicate function')
-    
-    filtered = [s for s in strings if predicate(s)]
-    
-    if not filtered:
-        return None
-    first_valid_string = filtered[0]
-    return first_valid_string.lower()
+def first_then_lower_case(a: list[str], p: Callable[[str], bool], /) -> Optional[str]:
+    for string in a:
+        if p(string):
+            return string.lower()
+    return None
 
 
 # Write your powers generator here
-def powers_generator(base: int, limit: int):
+def powers_generator(*, base, limit):
     exponent = 0
     while True:
-        result = base ** exponent
-        if result > limit:
+        limit_test = base**exponent
+        if limit_test > limit:
             break
-        yield result
+        yield limit_test
         exponent += 1
 
 # Write your say function here
-class Say:
-    def __init__(self, *args):
-        self.phrase = " ".join(args)
-    
-    def __call__(self, *args):
-        if not args:
-            return self.phrase
-        new_phrase = self.phrase + " " + " ".join(args)
-        return Say(new_phrase)
+def say(word=None):
+    created_string = []
 
-def say(*args):
-    if not args: 
-        return ""
-    return Say(*args)
+    def next_word(new_word=None):
+        if new_word == "": # empty string 
+            created_string.append(("")) # add space "" to end of list
+            return next_word # chain
+        
+        if new_word: # non empty string
+            created_string.append(new_word) # add new_word to end of created string
+            return next_word  # chain
+        
+        else: # not given anything --> say()
+            return " ".join(created_string)  # Return the final string
+    
+    return next_word(word)
 
 # Write your line count function here
 def meaningful_line_count(file_path):
