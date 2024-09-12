@@ -104,4 +104,47 @@ function add()
   
 end
 
+-- 000000000000000000000000
 
+Quaternion = {}
+
+Quaternion = (function (class)
+  class.new = function (n, i, j, k)
+    return setmetatable({n = n, i = i, j = j, k = k}, {
+      __index = {
+        magnitude = function(self)
+          return math.sqrt(self.i * self.i + self.j * self.j)
+        end,
+
+        normalized = function(self)
+          local m = self:magnitude()
+          return class.new(self.i / m, self.j / m)
+        end,
+
+        conjugate = function(self)
+          return (self.n*(-1) + self.i*(-1) + self.j*(-1) + self.k*(-1))
+        end
+      },
+      __add = function(self, v)
+        return class.new(self.i + v.i, self.j + v.j)
+      end,
+
+      __sub = function(self, v)
+        return class.new(self.i - v.i, self.j - v.j)
+      end,
+
+      __mul = function(self, v)
+        return self.i * v.i + self.j * v.j
+      end,
+
+      __eq = function(self, v)
+        return self.i == v.i and self.j == v.j
+      end,
+
+      __tostring = function(self)
+        return '<' .. self.n .. ', ' .. self.i .. self.j .. self.k .. '>'
+      end
+    })
+    end
+  return class
+end)({})
