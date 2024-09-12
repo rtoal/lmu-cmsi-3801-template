@@ -37,7 +37,7 @@ def say(text: Optional[str] = None) -> Callable | str:
     '''
     sentence: list[str] = []
 
-    def final_sentence(next_text: Optional[str] = None) -> str | Callable:
+    def final_sentence(next_text: Optional[str] = None) -> Callable | str:
         if next_text is None:
             return " ".join(sentence)
         else:
