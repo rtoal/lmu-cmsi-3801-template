@@ -5,7 +5,7 @@
 *Collaborators: Cecilia Zaragoza, Lauren Campbell, Raihana Zahra, Z Anderson*
 
 ### Description
-TBD
+The say function utilizes recursive calls to chain multiple strings together into a final outputted phrase. If there are no input call, it will output an empty string. <br>
 +1 Homework point because Cecilia helped Dr. Toal in-class by pointing out how to call a function on a Vector object in Javascript on 9/11/24.
 
 
