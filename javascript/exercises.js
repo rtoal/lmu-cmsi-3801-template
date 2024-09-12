@@ -16,7 +16,7 @@ export function change(amount) {
   return counts
 }
 
-export const firstThenLowerCase = (a, p) => {
+export function firstThenLowerCase(a, p) {
   const solution = a.find(p)
   return solution?.toLowerCase()
 }
