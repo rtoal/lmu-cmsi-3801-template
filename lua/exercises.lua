@@ -18,6 +18,22 @@ end
 -- Write your powers generator here
 
 -- Write your say function here
+function say(word)
+    local createdString = {}
+    function nextWord(newWord)
+        if newWord == "" then
+            table.insert(createdString, "")
+        elseif newWord then
+            table.insert(createdString, newWord)
+        else
+            return table.concat(createdString, " ")
+        end
+
+        return nextWord
+    end
+
+    return nextWord(word)
+end
 
 -- Write your line count function here
 
