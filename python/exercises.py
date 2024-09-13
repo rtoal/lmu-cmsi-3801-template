@@ -119,9 +119,8 @@ class Quaternion():
         output = output + get_num_remove_digit(self.b, "i")
         output = output + get_num_remove_digit(self.c, "j")
         output = output + get_num_remove_digit(self.d, "k")
-        # learned how to remove trailing spaces from bentasker: https://snippets.bentasker.co.uk/page-1706031030-Trim-whitespace-from-string-LUA.html
         if output != "":
-            # remove leading "+" from output
+            # remove leading "+" and all whitespace from output
             output = re.sub(r"^\+", "", output)
             output = output.strip()
 
