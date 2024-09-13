@@ -7,7 +7,8 @@
 ### Description
 - Q1 (first then lower case): 
     - The first then lower case function takes a sequence of strings and a predicate as input, and the first string to match that predicate is returned in all lowercase letters. If there is no string matching that predicate or the sequence is empty, then nil (Lua), undefined (Javascript), or None (Python) is returned.
-- Q2 (powers generator):  
+- Q2 (powers generator):
+    - The powers generator function is a generator that takes a base number and a limit, and yields the increasing powers of the base while the resulting number is less than or equal to the limit
 - Q3 (say):  
     - The say function utilizes recursive calls to chain multiple strings together into a final outputted phrase. If there are no input call, it will output an empty string. 
 - Q4 (line count): 
