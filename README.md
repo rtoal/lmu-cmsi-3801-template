@@ -13,10 +13,8 @@
 - Q4 (line count): 
 - Q5 (Quaternion class or table): The Quaternion class creates the blueprint for creating Quaternion objects. Users can create, add, multiply, list the coefficients, calculate the conjugate, determine equality between conjugates, and print Quaternions as strings.
 
-
-<br>
 +1 Homework point because Cecilia helped Dr. Toal in-class by pointing out how to call a function on a Vector object in Javascript on 9/11/24.
-
+<br>
 
 **Lua**
 - Q1 (first then lower case): Cecilia

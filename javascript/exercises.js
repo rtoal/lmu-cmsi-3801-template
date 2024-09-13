@@ -1,5 +1,4 @@
 import { open } from "node:fs/promises"
-import { readFile } from "node:fs/promises"
 
 export function change(amount) {
   if (!Number.isInteger(amount)) {
@@ -60,17 +59,18 @@ export function say(text = undefined) {
 }
 
 // Write your line count function here
+
 export async function meaningfulLineCount(path) {
   // Learned how to read file from: https://www.geeksforgeeks.org/node-js-filehandle-readlines-method/
-  const file = await open(path)
+  const file = await open(path, "r")
   let count = 0
-  const fileString = await readFile(path, { encoding: "utf8"})
-  fileString.split("\n").forEach(line => {
-    line = line.trim()
-    if (!(line.length == 0 || line[0] == "#")) {
+
+  for await (const line of file.readLines()) {
+    const newLine = line.trim()
+    if (!(newLine.length == 0 || newLine[0] == "#")) {
       count += 1
     }
-  });
+  }
   return count
 }
 

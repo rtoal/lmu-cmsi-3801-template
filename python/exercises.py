@@ -63,9 +63,8 @@ def meaningful_line_count(path: str) -> int:
     count = 0
     for line in f.readlines():
         newLine = line.strip()
-        if len(newLine) == 0 or newLine[0] == "#":
-            continue
-        count += 1
+        if not (len(newLine) == 0 or newLine[0] == "#"):
+            count += 1
     f.close()
     return count
 

@@ -74,7 +74,7 @@ function meaningful_line_count(filepath)
     end
   end
 
-  file:close()    
+  file:close()
   return linecount
 end
 
