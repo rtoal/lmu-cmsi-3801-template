@@ -88,17 +88,17 @@ for number in string.gmatch(input, "[^%s]+") do
     table.insert(Quaternion, number)
 end
 
-function tostring()
-  local output = ""
-  local var = {"", "i", "j", "k"}
-  local counter = 1
-  for key,value in next, Quaternion, nil do 
-    print(key)
-    output = (output.." "..value.." "..var[counter].." ")
-    counter = counter + 1
-  end
-  return output
-end
+-- function tostring()
+--   local output = ""
+--   local var = {"", "i", "j", "k"}
+--   local counter = 1
+--   for key,value in next, Quaternion, nil do 
+--     print(key)
+--     output = (output.." "..value.." "..var[counter].." ")
+--     counter = counter + 1
+--   end
+--   return output
+-- end
 
 function add()
   
@@ -109,40 +109,96 @@ end
 Quaternion = {}
 
 Quaternion = (function (class)
-  class.new = function (n, i, j, k)
-    return setmetatable({n = n, i = i, j = j, k = k}, {
+  class.new = function (a, b, c, d)
+    return setmetatable({a = a, b = b, c = c, d = d}, {
       __index = {
         magnitude = function(self)
-          return math.sqrt(self.i * self.i + self.j * self.j)
+          return math.sqrt(self.b * self.b + self.c * self.c)
         end,
 
         normalized = function(self)
           local m = self:magnitude()
-          return class.new(self.i / m, self.j / m)
+          return class.new(self.b / m, self.c / m)
         end,
 
         conjugate = function(self)
-          return (self.n*(-1) + self.i*(-1) + self.j*(-1) + self.k*(-1))
+          return class.new(self.a, self.b*(-1), self.c*(-1), self.d*(-1))
+        end,
+
+        coefficients = function(self)
+          return {self.a, self.b, self.c, self.d}
         end
+
       },
       __add = function(self, v)
-        return class.new(self.i + v.i, self.j + v.j)
+        return class.new(self.a + v.a, self.b + v.b, self.c + v.c, self.d + v.d)
       end,
 
       __sub = function(self, v)
-        return class.new(self.i - v.i, self.j - v.j)
+        return class.new(self.a - v.b, self.c - v.d)
       end,
 
       __mul = function(self, v)
-        return self.i * v.i + self.j * v.j
+        aProduct = (self.a * v.a) - (self.b * v.b) - (self.c * v.c) - (self.d * v.d)
+        bProduct = (self.a * v.b) + (self.b * v.a) + (self.c * v.d) - (self.d * v.c)
+        cProduct = (self.a * v.c) - (self.b * v.d) + (self.c * v.a) + (self.d * v.b)
+        dProduct = (self.a * v.d) + (self.b * v.c) - (self.c * v.b) + (self.d * v.a)
+        return class.new(aProduct, bProduct, cProduct, dProduct)
       end,
 
       __eq = function(self, v)
-        return self.i == v.i and self.j == v.j
+        return self.a == v.a and self.b == v.b and self.c == v.c and self.d == v.d
       end,
 
       __tostring = function(self)
-        return '<' .. self.n .. ', ' .. self.i .. self.j .. self.k .. '>'
+        local function formatComponent(coefficient, vector)
+          coefficient = coefficient + .0
+          local str = tostring(coefficient)
+          if str == '0.0' then
+            return ''
+          elseif str == '1.0' then
+            return vector
+          elseif str == '-1.0' then
+            return '-' .. vector
+          else
+            return str ..vector
+          end
+        end
+
+        self.a = self.a + .0
+
+        if tostring(self.a) == '0.0' then
+          nString = ''
+        else
+          nString = tostring(self.a)
+        end
+
+        local iString = formatComponent(self.b, 'i')
+        local jString = formatComponent(self.c, 'j')
+        local kString = formatComponent(self.d, 'k')
+
+        returnString = nString .. '+' .. iString .. '+' .. jString .. '+' .. kString
+
+        returnString = returnString:gsub('%++', '+')
+        returnString = returnString:gsub('%+%-', '-')
+
+        if returnString == '' then
+          return '0'
+        end
+
+        if string.sub(returnString, -1) == '+' then
+          returnString = string.sub(returnString, 1, -2)
+        end
+
+        if string.sub(returnString, 1, 1) == '+' then
+          returnString = string.sub(returnString, 2)
+        end     
+
+        if returnString == '' then
+          return '0'
+        end
+  
+        return returnString
       end
     })
     end
