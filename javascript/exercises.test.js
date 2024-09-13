@@ -9,29 +9,29 @@ import {
   Quaternion,
 } from "./exercises.js"
 
-// describe("The change function", () => {
-//   it("throws for fractions of cents", () => {
-//     throws(() => change(33.375), /TypeError/)
-//   })
-//   it("throws on negative", () => {
-//     throws(() => change(-50), /RangeError/)
-//   })
-//   it("works for 0", () => {
-//     deepEqual(change(0), { 25: 0, 10: 0, 5: 0, 1: 0 })
-//   })
-//   it("works for the usual cases", () => {
-//     deepEqual(change(1), { 25: 0, 10: 0, 5: 0, 1: 1 })
-//     deepEqual(change(8), { 25: 0, 10: 0, 5: 1, 1: 3 })
-//     deepEqual(change(42), { 25: 1, 10: 1, 5: 1, 1: 2 })
-//     deepEqual(change(99), { 25: 3, 10: 2, 5: 0, 1: 4 })
-//     deepEqual(change(144), { 25: 5, 10: 1, 5: 1, 1: 4 })
-//     deepEqual(change(250), { 25: 10, 10: 0, 5: 0, 1: 0 })
-//   })
-//   it("can handle really big values", () => {
-//     deepEqual(change(100000000037), { 25: 4000000001, 10: 1, 5: 0, 1: 2 })
-//     deepEqual(change(10000000000005), { 25: 400000000000, 10: 0, 5: 1, 1: 0 })
-//   })
-// })
+describe("The change function", () => {
+  it("throws for fractions of cents", () => {
+    throws(() => change(33.375), /TypeError/)
+  })
+  it("throws on negative", () => {
+    throws(() => change(-50), /RangeError/)
+  })
+  it("works for 0", () => {
+    deepEqual(change(0), { 25: 0, 10: 0, 5: 0, 1: 0 })
+  })
+  it("works for the usual cases", () => {
+    deepEqual(change(1), { 25: 0, 10: 0, 5: 0, 1: 1 })
+    deepEqual(change(8), { 25: 0, 10: 0, 5: 1, 1: 3 })
+    deepEqual(change(42), { 25: 1, 10: 1, 5: 1, 1: 2 })
+    deepEqual(change(99), { 25: 3, 10: 2, 5: 0, 1: 4 })
+    deepEqual(change(144), { 25: 5, 10: 1, 5: 1, 1: 4 })
+    deepEqual(change(250), { 25: 10, 10: 0, 5: 0, 1: 0 })
+  })
+  it("can handle really big values", () => {
+    deepEqual(change(100000000037), { 25: 4000000001, 10: 1, 5: 0, 1: 2 })
+    deepEqual(change(10000000000005), { 25: 400000000000, 10: 0, 5: 1, 1: 0 })
+  })
+})
 
 // Uncomment the following tests as you complete the exercises
 

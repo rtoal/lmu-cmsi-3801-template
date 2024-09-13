@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from collections.abc import Callable
 from typing import Optional
 import os
+import re
 
 
 def change(amount: int) -> dict[int, int]:
@@ -63,9 +64,8 @@ def meaningful_line_count(path: str) -> int:
     count = 0
     for line in f.readlines():
         newLine = line.strip()
-        if len(newLine) == 0 or newLine[0] == "#":
-            continue
-        count += 1
+        if not (len(newLine) == 0 or newLine[0] == "#"):
+            count += 1
     f.close()
     return count
 
@@ -100,46 +100,28 @@ class Quaternion():
     def __str__(self):
         output = ""
 
-        if self.a != 0:
-            output += f'{self.a}'
-
-        if self.b != 0:
-            if self.b == 1:
-                if output == "":
-                    output += "i"
-                else:
-                    output += "+i"
-            elif self.b > 1:
-                output += "+" + f'{self.b}i'
-            elif self.b == -1:
-                output += "-i"
+        def get_num_remove_digit(coefficient, basis_vector):
+            coefficient_formatted = ""
+            if coefficient > 1 and basis_vector != "":
+                coefficient_formatted = "+" + str(coefficient)
+            elif coefficient == 1 and basis_vector != "":
+                coefficient_formatted = "+"
+            elif coefficient == -1 and basis_vector != "":
+                coefficient_formatted = "-"
             else:
-                output += f'{self.b}i'
-
-        if self.c != 0:
-            if self.c == 1:
-                if output == "":
-                    output += "j"
-                else:
-                    output += "+j"
-            elif self.c > 1:
-                output += "+" + f'{self.c}j'
-            elif self.c == -1:
-                output += "-j"
-            else:
-                output += f'{self.c}j'
-                
-        if self.d != 0:
-            if self.d == 1:
-                if output == "":
-                    output += "k"
-                else:
-                    output += "+k"
-            elif self.d > 1:
-                output += "+" + f'{self.d}k'
-            elif self.d == -1:
-                output += "-k"
-            else:
-                output += f'{self.d}k'
+                # number formatted is the number itself if number negative or if basis_vector == ""
+                coefficient_formatted = str(coefficient)
+            if coefficient != 0:
+                return coefficient_formatted + basis_vector
+            return ""
+        
+        output = output + get_num_remove_digit(self.a, "")
+        output = output + get_num_remove_digit(self.b, "i")
+        output = output + get_num_remove_digit(self.c, "j")
+        output = output + get_num_remove_digit(self.d, "k")
+        if output != "":
+            # remove leading "+" and all whitespace from output
+            output = re.sub(r"^\+", "", output)
+            output = output.strip()
 
         return output or "0"
