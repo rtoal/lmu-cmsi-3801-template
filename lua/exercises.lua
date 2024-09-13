@@ -112,17 +112,9 @@ Quaternion = (function (class)
   class.new = function (a, b, c, d)
     return setmetatable({a = a, b = b, c = c, d = d}, {
       __index = {
-        magnitude = function(self)
-          return math.sqrt(self.b * self.b + self.c * self.c)
-        end,
-
-        normalized = function(self)
-          local m = self:magnitude()
-          return class.new(self.b / m, self.c / m)
-        end,
 
         conjugate = function(self)
-          return class.new(self.a, self.b*(-1), self.c*(-1), self.d*(-1))
+          return class.new(self.a, self.b * (-1), self.c * (-1), self.d * (-1))
         end,
 
         coefficients = function(self)
@@ -130,24 +122,20 @@ Quaternion = (function (class)
         end
 
       },
-      __add = function(self, v)
-        return class.new(self.a + v.a, self.b + v.b, self.c + v.c, self.d + v.d)
+      __add = function(self, other)
+        return class.new(self.a + other.a, self.b + other.b, self.c + other.c, self.d + other.d)
       end,
 
-      __sub = function(self, v)
-        return class.new(self.a - v.b, self.c - v.d)
-      end,
-
-      __mul = function(self, v)
-        aProduct = (self.a * v.a) - (self.b * v.b) - (self.c * v.c) - (self.d * v.d)
-        bProduct = (self.a * v.b) + (self.b * v.a) + (self.c * v.d) - (self.d * v.c)
-        cProduct = (self.a * v.c) - (self.b * v.d) + (self.c * v.a) + (self.d * v.b)
-        dProduct = (self.a * v.d) + (self.b * v.c) - (self.c * v.b) + (self.d * v.a)
+      __mul = function(self, other)
+        aProduct = (self.a * other.a) - (self.b * other.b) - (self.c * other.c) - (self.d * other.d)
+        bProduct = (self.a * other.b) + (self.b * other.a) + (self.c * other.d) - (self.d * other.c)
+        cProduct = (self.a * other.c) - (self.b * other.d) + (self.c * other.a) + (self.d * other.b)
+        dProduct = (self.a * other.d) + (self.b * other.c) - (self.c * other.b) + (self.d * other.a)
         return class.new(aProduct, bProduct, cProduct, dProduct)
       end,
 
-      __eq = function(self, v)
-        return self.a == v.a and self.b == v.b and self.c == v.c and self.d == v.d
+      __eq = function(self, other)
+        return self.a == other.a and self.b == other.b and self.c == other.c and self.d == other.d
       end,
 
       __tostring = function(self)
