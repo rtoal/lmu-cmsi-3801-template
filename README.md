@@ -12,6 +12,7 @@
 - Q3 (say):  
     - The say function utilizes recursive calls to chain multiple strings together into a final outputted phrase. If there are no input call, it will output an empty string. 
 - Q4 (line count): 
+    - The line count function reads a file line by line and returns how many lines satisfy these three requirements: lines that are not all whitespace, lines that do not have # as their first non-whitespace character, and lines that are not empty.
 - Q5 (Quaternion class or table): The Quaternion class creates the blueprint for creating Quaternion objects. Users can create, add, multiply, list the coefficients, calculate the conjugate, determine equality between conjugates, and print Quaternions as strings.
 
 +1 Homework point because Cecilia helped Dr. Toal in-class by pointing out how to call a function on a Vector object in Javascript on 9/11/24.
