@@ -6,6 +6,7 @@ import java.util.function.Predicate;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.stream.Stream;
 
 public class Exercises {
     static Map<Integer, Long> change(long amount) {
@@ -21,6 +22,12 @@ public class Exercises {
     }
 
     // Write your first then lower case function here
+    static Optional<String> firstThenLowerCase(List<String> a, Predicate<String> p) {
+        Stream<String> stringStream = a.stream().filter(p);
+        Optional<String> returnString = stringStream.findFirst();
+        
+        return returnString.map(String::toLowerCase);
+    }
 
     // Write your say function here
 
