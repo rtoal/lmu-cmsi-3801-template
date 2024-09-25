@@ -88,20 +88,107 @@ for number in string.gmatch(input, "[^%s]+") do
     table.insert(Quaternion, number)
 end
 
-function tostring()
-  local output = ""
-  local var = {"", "i", "j", "k"}
-  local counter = 1
-  for key,value in next, Quaternion, nil do 
-    print(key)
-    output = (output.." "..value.." "..var[counter].." ")
-    counter = counter + 1
-  end
-  return output
-end
+-- function tostring()
+--   local output = ""
+--   local var = {"", "i", "j", "k"}
+--   local counter = 1
+--   for key,value in next, Quaternion, nil do 
+--     print(key)
+--     output = (output.." "..value.." "..var[counter].." ")
+--     counter = counter + 1
+--   end
+--   return output
+-- end
 
 function add()
   
 end
 
+-- 000000000000000000000000
 
+Quaternion = {}
+
+Quaternion = (function (class)
+  class.new = function (a, b, c, d)
+    return setmetatable({a = a, b = b, c = c, d = d}, {
+      __index = {
+
+        conjugate = function(self)
+          return class.new(self.a, self.b * (-1), self.c * (-1), self.d * (-1))
+        end,
+
+        coefficients = function(self)
+          return {self.a, self.b, self.c, self.d}
+        end
+
+      },
+      __add = function(self, other)
+        return class.new(self.a + other.a, self.b + other.b, self.c + other.c, self.d + other.d)
+      end,
+
+      __mul = function(self, other)
+        aProduct = (self.a * other.a) - (self.b * other.b) - (self.c * other.c) - (self.d * other.d)
+        bProduct = (self.a * other.b) + (self.b * other.a) + (self.c * other.d) - (self.d * other.c)
+        cProduct = (self.a * other.c) - (self.b * other.d) + (self.c * other.a) + (self.d * other.b)
+        dProduct = (self.a * other.d) + (self.b * other.c) - (self.c * other.b) + (self.d * other.a)
+        return class.new(aProduct, bProduct, cProduct, dProduct)
+      end,
+
+      __eq = function(self, other)
+        return self.a == other.a and self.b == other.b and self.c == other.c and self.d == other.d
+      end,
+
+      __tostring = function(self)
+        local function formatComponent(coefficient, vector)
+          coefficient = coefficient + .0
+          local str = tostring(coefficient)
+          if str == '0.0' then
+            return ''
+          elseif str == '1.0' then
+            return vector
+          elseif str == '-1.0' then
+            return '-' .. vector
+          else
+            return str ..vector
+          end
+        end
+
+        self.a = self.a + .0
+
+        if tostring(self.a) == '0.0' then
+          nString = ''
+        else
+          nString = tostring(self.a)
+        end
+
+        local iString = formatComponent(self.b, 'i')
+        local jString = formatComponent(self.c, 'j')
+        local kString = formatComponent(self.d, 'k')
+
+        returnString = nString .. '+' .. iString .. '+' .. jString .. '+' .. kString
+
+        returnString = returnString:gsub('%++', '+')
+        returnString = returnString:gsub('%+%-', '-')
+
+        if returnString == '' then
+          return '0'
+        end
+
+        if string.sub(returnString, -1) == '+' then
+          returnString = string.sub(returnString, 1, -2)
+        end
+
+        if string.sub(returnString, 1, 1) == '+' then
+          returnString = string.sub(returnString, 2)
+        end     
+
+        if returnString == '' then
+          return '0'
+        end
+  
+        return returnString
+      end
+    })
+    end
+  return class
+end)({})
