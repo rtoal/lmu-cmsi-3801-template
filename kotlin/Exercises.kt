@@ -21,7 +21,28 @@ fun firstThenLowerCase(a: List<String>, p: (String) -> Boolean): String? {
 
 // Write your say function here
 
+
 // Write your meaningfulLineCount function here
+fun meaningfulLineCount(fileName: String): Long {
+    var count = 0L;
+
+    try {
+        FileReader(fileName).use { fileReader ->
+            BufferedReader(fileReader).use { bufferedReader ->
+                bufferedReader.forEachLine { line ->
+                    if (!line.trim().isEmpty()) {
+                        if (!(line.trim()[0] == '#')) {
+                            count += 1L
+                        }
+                    }
+                }
+            }
+            return count
+        }
+    } catch (e: IOException) {
+        throw IOException("No such file")
+    }
+}
 
 // Write your Quaternion data class here
 
