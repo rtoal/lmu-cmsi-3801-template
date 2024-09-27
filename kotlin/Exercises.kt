@@ -20,7 +20,18 @@ fun firstThenLowerCase(a: List<String>, p: (String) -> Boolean): String? {
 }
 
 // Write your say function here
+class SayObject private constructor(private val words: List<String>) {
+    val phrase: String
+        get() = words.joinToString(" ")
 
+    fun and(word: String): SayObject = SayObject(words + word)
+
+    companion object {
+        operator fun invoke(initial: String = ""): SayObject = SayObject(listOf(initial))
+    }
+}
+
+fun say(initial: String = ""): SayObject = SayObject(initial)
 
 // Write your meaningfulLineCount function here
 fun meaningfulLineCount(fileName: String): Long {
