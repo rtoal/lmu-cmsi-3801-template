@@ -17,64 +17,188 @@ func change(_ amount: Int) -> Result<[Int:Int], NegativeAmountError> {
 
 // Write your first then lower case function here
 // test cases require 'satisfying' instead of '_'
-func firstThenLowerCase(of array: [String], satisfying predicate: (String) -> Bool) -> String? {
-    return array.first(where: predicate)?.lowercased()
-}
+// func firstThenLowerCase(of array: [String], satisfying predicate: (String) -> Bool) -> String? {
+//     return array.first(where: predicate)?.lowercased()
+// }
 
 
-struct Say {
-    private var words: [String]
-    init(_ word: String = "") {
-        self.words = word.isEmpty ? [] : [word]
-    }
-    func and(_ word: String) -> Say {
-        var newSay = 
-        newSay.words.append(word)
-        return newSay 
-    }
-    var phrase: String {
-        return words.joined(separator: " ") 
-    }
-}
-func say(_ word: String = "") -> Say {
-    return Say(word)
+// struct Say {
+//     private var words: [String]
+//     init(_ word: String = "") {
+//         self.words = word.isEmpty ? [] : [word]
+//     }
+//     func and(_ word: String) -> Say {
+//         var newSay = 
+//         newSay.words.append(word)
+//         return newSay 
+//     }
+//     var phrase: String {
+//         return words.joined(separator: " ") 
+//     }
+// }
+// func say(_ word: String = "") -> Say {
+//     return Say(word)
 
 
-// Write your meaningfulLineCount function here
-enum FileError: Error {
-    case fileNotFound
-    case failedToRead
-}
+// // Write your meaningfulLineCount function here
+// enum FileError: Error {
+//     case fileNotFound
+//     case failedToRead
+// }
 
-func meaningfulLineCount(_ filename: String) async -> Result<Int, Error> {
+// func meaningfulLineCount(_ filename: String) async -> Result<Int, Error> {
     
-    do {
+//     do {
 
-        let fileURL = URL(fileURLWithPath: filename)
+//         let fileURL = URL(fileURLWithPath: filename)
 
-        guard FileManager.default.fileExists(atPath: filename) else {
-            return .failure(FileError.fileNotFound)
-        }
+//         guard FileManager.default.fileExists(atPath: filename) else {
+//             return .failure(FileError.fileNotFound)
+//         }
 
-    var lineCount = 0
+//     var lineCount = 0
 
-    for try await line in fileURL.lines {
-        let trimmedLine = line.trimmingCharacters(in: .whitespaces)
+//     for try await line in fileURL.lines {
+//         let trimmedLine = line.trimmingCharacters(in: .whitespaces)
 
-        if !trimmedLine.isEmpty && !trimmedLine.hasPrefix("#") {
-            lineCount += 1
-            }
-        }
+//         if !trimmedLine.isEmpty && !trimmedLine.hasPrefix("#") {
+//             lineCount += 1
+//             }
+//         }
 
-        return .success(lineCount)
+//         return .success(lineCount)
 
-    } catch { 
+//     } catch { 
 
-    return .failure(FileError.failedToRead)
-    }
-}
+//     return .failure(FileError.failedToRead)
+//     }
+// }
 
 // Write your Quaternion struct here
+
+struct Quaternion: CustomStringConvertible {
+    let a: Double // scalar
+    let b: Double // i
+    let c: Double // j
+    let d: Double // k
+
+    init(a: Double? = 0, b: Double? = 0, c: Double? = 0, d: Double? = 0) {
+        self.a = a ?? 0
+        self.b = b ?? 0
+        self.c = c ?? 0
+        self.d = d ?? 0
+    }
+
+    var coefficients: [Double] {
+        return [a, b, c, d]
+    }
+
+    var conjugate: Quaternion {
+        return Quaternion(
+            a: a,
+            b: -b,
+            c: -c,
+            d: -d
+        )
+    }
+
+    var description: String {
+	    var components: [String] = []
+		if a != 0 {
+			components.append("\(a)")
+		}
+		if b != 0 {
+            if b == 1 {
+                components.append("i")
+            } else if b == -1 {
+                components.append("-i")
+            } else {
+			    components.append("\(b)i")
+		    }
+        } 
+		if c != 0 {
+            if c == 1 {
+                components.append("j")
+            } else if c == -1 {
+                components.append("-j")
+            } else {
+			    components.append("\(b)j")
+		    }
+        } 
+        if d != 0 {
+            if d == 1 {
+                components.append("k")
+            } else if d == -1 {
+                components.append("-k")
+            } else {
+			    components.append("\(b)k")
+		    }
+        }    
+    
+        return components.isEmpty ? "0" : components.joined(separator: "+")
+    }
+
+    static func == (lhs: Quaternion, rhs: Quaternion) -> Bool {
+        return (lhs.a == rhs.a && // scalar1 = scalar2?
+                lhs.b == rhs.b && // i1 = i2?
+                lhs.c == rhs.c && // j1 = j2?
+                lhs.d == rhs.d)  // k1 = k2?
+    }
+
+    static var ZERO: Quaternion {
+        return Quaternion(
+            a: 0, // scalar
+            b: 0, // i
+            c: 0, // j
+            d: 0  // k
+        )
+    }
+
+    static var I: Quaternion {
+        return Quaternion(
+            a: 0, // scalar
+            b: 1, // i
+            c: 0, // j
+            d: 0  // k
+        )
+    }
+
+    static var J: Quaternion {
+        return Quaternion(
+            a: 0, // scalar
+            b: 0, // i
+            c: 1, // j
+            d: 0  // k
+        )
+    }
+
+    static var K: Quaternion {
+        return Quaternion(
+            a: 0, // scalar
+            b: 0, // i
+            c: 0, // j
+            d: 1  // k
+        )
+    }
+}
+
+func + (lhs: Quaternion, rhs: Quaternion) -> Quaternion {
+    return Quaternion(
+        a: lhs.a + rhs.a, 
+        b: lhs.b + rhs.b, 
+        c: lhs.c + rhs.c,
+        d: lhs.d + rhs.d
+    )
+}
+
+func * (lhs: Quaternion, rhs: Quaternion) -> Quaternion {
+    return Quaternion(
+        a: (lhs.a * rhs.a) - (lhs.b * rhs.b) - (lhs.c * rhs.c) - (lhs.d * rhs.d),
+        b: (lhs.a * rhs.b) + (lhs.b * rhs.a) + (lhs.c * rhs.d) - (lhs.d * rhs.c),
+        c: (lhs.a * rhs.c) - (lhs.b * rhs.d) + (lhs.c * rhs.a) + (lhs.d * rhs.b),
+        d: (lhs.a * rhs.d) + (lhs.b * rhs.c) - (lhs.c * rhs.b) + (lhs.d * rhs.a) 
+    )
+}
 
 // Write your Binary Search Tree enum here
 
