@@ -17,30 +17,62 @@ func change(_ amount: Int) -> Result<[Int:Int], NegativeAmountError> {
 
 // Write your first then lower case function here
 // test cases require 'satisfying' instead of '_'
-func firstThenLowerCase(of array: [String], satisfying predicate: (String) -> Bool) -> String? {
-    return array.first(where: predicate)?.lowercased()
-}
+// func firstThenLowerCase(of array: [String], satisfying predicate: (String) -> Bool) -> String? {
+//     return array.first(where: predicate)?.lowercased()
+// }
 
 
-struct Say {
-    private var words: [String]
-    init(_ word: String = "") {
-        self.words = word.isEmpty ? [] : [word]
-    }
-    func and(_ word: String) -> Say {
-        var newSay = 
-        newSay.words.append(word)
-        return newSay 
-    }
-    var phrase: String {
-        return words.joined(separator: " ") 
-    }
-}
-func say(_ word: String = "") -> Say {
-    return Say(word)
+// struct Say {
+//     private var words: [String]
+//     init(_ word: String = "") {
+//         self.words = word.isEmpty ? [] : [word]
+//     }
+//     func and(_ word: String) -> Say {
+//         var newSay = 
+//         newSay.words.append(word)
+//         return newSay 
+//     }
+//     var phrase: String {
+//         return words.joined(separator: " ") 
+//     }
+// }
+// func say(_ word: String = "") -> Say {
+//     return Say(word)
 
 
 // Write your meaningfulLineCount function here
+enum FileError: Error {
+    case fileNotFound
+    case failedToRead
+}
+
+func meaningfulLineCount(_ filename: String) async -> Result<Int, Error> {
+    
+    do {
+
+        let fileURL = URL(fileURLWithPath: filename)
+
+        guard FileManager.default.fileExists(atPath: filename) else {
+            return .failure(FileError.fileNotFound)
+        }
+
+    var lineCount = 0
+
+    for try await line in fileURL.lines {
+        let trimmedLine = line.trimmingCharacters(in: .whitespaces)
+
+        if !trimmedLine.isEmpty && !trimmedLine.hasPrefix("#") {
+            lineCount += 1
+            }
+        }
+
+        return .success(lineCount)
+
+    } catch { 
+
+    return .failure(FileError.failedToRead)
+    }
+}
 
 // Write your Quaternion struct here
 
