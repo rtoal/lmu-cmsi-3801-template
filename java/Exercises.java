@@ -80,6 +80,7 @@ public class Exercises {
         }
     }
 }
+
 // Write your Quaternion record class here
 record Quaternion(double a, double b, double c, double d) {
 
