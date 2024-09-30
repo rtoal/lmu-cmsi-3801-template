@@ -8,6 +8,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.stream.Stream;
+import java.util.ArrayList;
 
 public class Exercises {
     static Map<Integer, Long> change(long amount) {
@@ -80,5 +81,55 @@ public class Exercises {
     }
 }
 // Write your Quaternion record class here
+record Quaternion(double a, double b, double c, double d) {
+
+    public final static Quaternion ZERO = new Quaternion(0, 0, 0, 0);
+    public final static Quaternion I = new Quaternion(0, 1, 0, 0);
+    public final static Quaternion J = new Quaternion(0, 0, 1, 0);
+    public final static Quaternion K = new Quaternion(0, 0, 0, 1);
+
+    Quaternion plus(Quaternion other) {
+        return new Quaternion(a + other.a, b + other.b, c + other.c, d + other.d);
+    }
+
+    Quaternion times(Quaternion other) {
+        return new Quaternion(
+            a * other.a - b * other.b - c * other.c - d * other.d,
+            a * other.b + b * other.a + c * other.d - d * other.c,
+            a * other.c - b * other.d + c * other.a + d * other.b,
+            a * other.d + b * other.c - c * other.b + d * other.a);
+    }
+    public Quaternion conjugate() {
+        return new Quaternion(a, -b, -c, -d);
+    }
+
+    public List<Double> coefficients() {
+        return List.of(a, b, c, d);
+    }
+
+    public String toString() {
+        List<String> terms = new ArrayList<>();
+
+        if (a != 0.0) terms.add(String.valueOf(a));
+        if (b != 0.0) terms.add((b == 1.0 ? "" : b == -1.0 ? "-" : String.valueOf(b)) + "i");
+        if (c != 0.0) terms.add((c == 1.0 ? "" : c == -1.0 ? "-" : String.valueOf(c)) + "j");
+        if (d != 0.0) terms.add((d == 1.0 ? "" : d == -1.0 ? "-" : String.valueOf(d)) + "k");
+
+        if (terms.isEmpty()) {
+            return "0";
+        } else if (terms.size() == 1) {
+            return terms.get(0);
+        } else {
+            StringBuilder result = new StringBuilder();
+            for (int i = 0; i < terms.size(); i++) {
+                if (i > 0) {
+                    result.append("+");
+                }
+                result.append(terms.get(i));
+            }
+            return result.toString().replace("+-", "-");
+        }
+    }
+}
 
 // Write your BinarySearchTree sealed interface and its implementations here
