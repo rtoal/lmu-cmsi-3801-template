@@ -194,6 +194,8 @@ final class Node implements BinarySearchTree {
 
     @Override
     public String toString() {
-        return "(" + left + value + right + ")";
+        String leftString = left instanceof Empty ? "" : left.toString();
+        String rightString = right instanceof Empty ? "" : right.toString();
+        return "(" + leftString + value + rightString + ")";
     }
 }
