@@ -89,6 +89,12 @@ record Quaternion(double a, double b, double c, double d) {
     public final static Quaternion J = new Quaternion(0, 0, 1, 0);
     public final static Quaternion K = new Quaternion(0, 0, 0, 1);
 
+    public Quaternion {
+        if (Double.isNaN(a) || Double.isNaN(b) || Double.isNaN(c) || Double.isNaN(d)) {
+            throw new IllegalArgumentException("Coefficients cannot be NaN");
+        }
+    }
+
     Quaternion plus(Quaternion other) {
         return new Quaternion(a + other.a, b + other.b, c + other.c, d + other.d);
     }
