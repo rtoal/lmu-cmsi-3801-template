@@ -17,62 +17,64 @@ func change(_ amount: Int) -> Result<[Int:Int], NegativeAmountError> {
 
 // Write your first then lower case function here
 // test cases require 'satisfying' instead of '_'
-// func firstThenLowerCase(of array: [String], satisfying predicate: (String) -> Bool) -> String? {
-//     return array.first(where: predicate)?.lowercased()
-// }
+func firstThenLowerCase(of array: [String], satisfying predicate: (String) -> Bool) -> String? {
+    return array.first(where: predicate)?.lowercased()
+}
 
 
-// struct Say {
-//     private var words: [String]
-//     init(_ word: String = "") {
-//         self.words = word.isEmpty ? [] : [word]
-//     }
-//     func and(_ word: String) -> Say {
-//         var newSay = 
-//         newSay.words.append(word)
-//         return newSay 
-//     }
-//     var phrase: String {
-//         return words.joined(separator: " ") 
-//     }
-// }
-// func say(_ word: String = "") -> Say {
-//     return Say(word)
+struct Say {
+    private var words: [String]
+    init(_ word: String = "") {
+        //self.words = word.isEmpty ? [] : [word]
+        self.words = [word]
+    }
+    func and(_ word: String) -> Say {
+        var newSay = self
+        newSay.words.append(word)
+        return newSay 
+    }
+    var phrase: String {
+        return words.joined(separator: " ") 
+    }
+}
+func say(_ word: String = "") -> Say {
+    return Say(word)
+}
 
 
-// // Write your meaningfulLineCount function here
-// enum FileError: Error {
-//     case fileNotFound
-//     case failedToRead
-// }
+// Write your meaningfulLineCount function here
+enum FileError: Error {
+    case fileNotFound
+    case failedToRead
+}
 
-// func meaningfulLineCount(_ filename: String) async -> Result<Int, Error> {
+func meaningfulLineCount(_ filename: String) async -> Result<Int, Error> {
     
-//     do {
+    do {
 
-//         let fileURL = URL(fileURLWithPath: filename)
+        let fileURL = URL(fileURLWithPath: filename)
 
-//         guard FileManager.default.fileExists(atPath: filename) else {
-//             return .failure(FileError.fileNotFound)
-//         }
+        guard FileManager.default.fileExists(atPath: filename) else {
+            return .failure(FileError.fileNotFound)
+        }
 
-//     var lineCount = 0
+    var lineCount = 0
 
-//     for try await line in fileURL.lines {
-//         let trimmedLine = line.trimmingCharacters(in: .whitespaces)
+    for try await line in fileURL.lines {
+        let trimmedLine = line.trimmingCharacters(in: .whitespaces)
 
-//         if !trimmedLine.isEmpty && !trimmedLine.hasPrefix("#") {
-//             lineCount += 1
-//             }
-//         }
+        if !trimmedLine.isEmpty && !trimmedLine.hasPrefix("#") {
+            lineCount += 1
+            }
+        }
 
-//         return .success(lineCount)
+        return .success(lineCount)
 
-//     } catch { 
+    } catch { 
 
-//     return .failure(FileError.failedToRead)
-//     }
-// }
+    return .failure(FileError.failedToRead)
+    }
+}
 
 // Write your Quaternion struct here
 
@@ -109,33 +111,48 @@ struct Quaternion: CustomStringConvertible {
 		}
 		if b != 0 {
             if b == 1 {
-                components.append("i")
+                components.append("+i")
             } else if b == -1 {
                 components.append("-i")
-            } else {
-			    components.append("\(b)i")
-		    }
+            } else if b > 0 {
+			    components.append("+\(b)i")
+		    } else {
+                components.append("\(b)i")
+            }
         } 
 		if c != 0 {
             if c == 1 {
-                components.append("j")
+                components.append("+j")
             } else if c == -1 {
                 components.append("-j")
-            } else {
-			    components.append("\(b)j")
-		    }
+            } else if c > 0 {
+			    components.append("+\(c)j")
+		    } else {
+                components.append("\(c)j")
+            }
         } 
         if d != 0 {
             if d == 1 {
-                components.append("k")
+                components.append("+k")
             } else if d == -1 {
                 components.append("-k")
-            } else {
-			    components.append("\(b)k")
-		    }
+            } else if d > 0 {
+			    components.append("+\(d)k")
+		    } else {
+                components.append("\(d)k")
+            }
         }    
     
-        return components.isEmpty ? "0" : components.joined(separator: "+")
+        if components.isEmpty {
+            return "0"
+        }
+
+        var result = components.joined()
+        if result.first == "+" {
+            result.removeFirst()
+        }
+        
+        return result
     }
 
     static func == (lhs: Quaternion, rhs: Quaternion) -> Bool {
