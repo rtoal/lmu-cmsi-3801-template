@@ -41,14 +41,14 @@ func say(_ word: String = "") -> Say {
     return Say(word)
 }
 
-
+/*
 // Write your meaningfulLineCount function here
 enum FileError: Error {
     case fileNotFound
     case failedToRead
 }
 
-func meaningfulLineCount(_ filename: String) async -> Result<Int, Error> {
+func meaningfulLineCount(_ filename: String) async -> Result <Int, Error> {
     
     do {
 
@@ -75,7 +75,7 @@ func meaningfulLineCount(_ filename: String) async -> Result<Int, Error> {
     return .failure(FileError.failedToRead)
     }
 }
-
+*/
 // Write your Quaternion struct here
 
 struct Quaternion: CustomStringConvertible {
@@ -219,21 +219,50 @@ func * (lhs: Quaternion, rhs: Quaternion) -> Quaternion {
 
 // Write your Binary Search Tree enum here
 
-/*
-enum BST {
+
+enum BinarySearchTree {
     case empty
-    indirect case node(BST, String, BST)
+    indirect case node(BinarySearchTree, String, BinarySearchTree)
 
-    var size Int {
-        case .empty: return 0
-
-        // pattern match to check the left and right nodes and let indicates that there is a pattern
-        case let .node(left, _, right): return left.size + 1 + right.size
+    var size: Int {
+        switch self {
+        case .empty:
+            return 0
+        case let .node(left, _, right):
+            return left.size + 1 + right.size
+        }
     }
 
-}
+    func insert(_ newValue: String) -> BinarySearchTree {
+        switch self {
+        case .empty:
+            return .node(.empty, newValue, .empty)
+        case let .node(left, value, right):
+            if newValue < value {
+                return .node(left.insert(newValue), value, right)
+            } else if newValue > value {
+                return .node(left, value, right.insert(newValue))
+            } else {
+                return self
+            }
+        }
+    }
 
-var t = BST(BST.node(BST.empty), 1, BST.empty),
-2,
-BST.node(BST.empty, 3, BST.empty)
-*/
+    func contains(_ searchValue: String) -> Bool {
+        switch self {
+        case .empty:
+            return false
+        case let .node(left, value, right):
+            if searchValue == value {
+                return true
+            } else if searchValue < value {
+                return left.contains(searchValue)
+            } else {
+                return right.contains(searchValue)
+            }
+        }
+    }
+
+    
+
+}
