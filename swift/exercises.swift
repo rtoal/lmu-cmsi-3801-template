@@ -15,22 +15,20 @@ func change(_ amount: Int) -> Result<[Int:Int], NegativeAmountError> {
     return .success(counts)
 }
 
-// Write your first then lower case function here
-// test cases require 'satisfying' instead of '_'
 func firstThenLowerCase(of array: [String], satisfying predicate: (String) -> Bool) -> String? {
     return array.first(where: predicate)?.lowercased()
 }
 
-
 struct Say {
     private var words: [String]
     init(_ word: String = "") {
-        //self.words = word.isEmpty ? [] : [word]
         self.words = [word]
     }
+
     func and(_ word: String) -> Say {
         var newSay = self
         newSay.words.append(word)
+       
         return newSay 
     }
     var phrase: String {
@@ -41,8 +39,6 @@ func say(_ word: String = "") -> Say {
     return Say(word)
 }
 
-/*
-// Write your meaningfulLineCount function here
 enum FileError: Error {
     case fileNotFound
     case failedToRead
@@ -75,8 +71,6 @@ func meaningfulLineCount(_ filename: String) async -> Result <Int, Error> {
     return .failure(FileError.failedToRead)
     }
 }
-*/
-// Write your Quaternion struct here
 
 struct Quaternion: CustomStringConvertible {
     let a: Double // scalar
@@ -147,54 +141,54 @@ struct Quaternion: CustomStringConvertible {
             return "0"
         }
 
-        var result = components.joined()
-        if result.first == "+" {
-            result.removeFirst()
+        var string_desc = components.joined()
+        if string_desc.first == "+" {
+            string_desc.removeFirst()
         }
         
-        return result
+        return string_desc
     }
 
     static func == (lhs: Quaternion, rhs: Quaternion) -> Bool {
-        return (lhs.a == rhs.a && // scalar1 = scalar2?
-                lhs.b == rhs.b && // i1 = i2?
-                lhs.c == rhs.c && // j1 = j2?
-                lhs.d == rhs.d)  // k1 = k2?
+        return (lhs.a == rhs.a && 
+                lhs.b == rhs.b && 
+                lhs.c == rhs.c && 
+                lhs.d == rhs.d)  
     }
 
     static var ZERO: Quaternion {
         return Quaternion(
-            a: 0, // scalar
-            b: 0, // i
-            c: 0, // j
-            d: 0  // k
+            a: 0, 
+            b: 0, 
+            c: 0, 
+            d: 0  
         )
     }
 
     static var I: Quaternion {
         return Quaternion(
-            a: 0, // scalar
-            b: 1, // i
-            c: 0, // j
-            d: 0  // k
+            a: 0, 
+            b: 1, 
+            c: 0, 
+            d: 0  
         )
     }
 
     static var J: Quaternion {
         return Quaternion(
-            a: 0, // scalar
-            b: 0, // i
-            c: 1, // j
-            d: 0  // k
+            a: 0, 
+            b: 0, 
+            c: 1, 
+            d: 0  
         )
     }
 
     static var K: Quaternion {
         return Quaternion(
-            a: 0, // scalar
-            b: 0, // i
-            c: 0, // j
-            d: 1  // k
+            a: 0, 
+            b: 0,
+            c: 0, 
+            d: 1  
         )
     }
 }
@@ -216,9 +210,6 @@ func * (lhs: Quaternion, rhs: Quaternion) -> Quaternion {
         d: (lhs.a * rhs.d) + (lhs.b * rhs.c) - (lhs.c * rhs.b) + (lhs.d * rhs.a) 
     )
 }
-
-// Write your Binary Search Tree enum here
-
 
 enum BinarySearchTree: CustomStringConvertible {
     case empty
@@ -281,7 +272,4 @@ enum BinarySearchTree: CustomStringConvertible {
             }
         }
     }
-
-    
-
 }
