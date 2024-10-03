@@ -20,10 +20,29 @@ func change(_ amount: Int) -> Result<[Int:Int], NegativeAmountError> {
 // Write your say function here
 
 // Write your meaningfulLineCount function here
-// func meaningfulLineCount(_ path: String) -> Int {
+func meaningfulLineCount(_ path: String) async -> Result<Int, Error> {
+    // for using result: // https://www.hackingwithswift.com/articles/161/how-to-use-result-in-swift
+    do {
+        // read file async
+        let fileURL = URL(fileURLWithPath: path)
+        var lineCount = 0
 
+        for try await line in fileURL.lines {
+            let trimmed = line.trimmingCharacters(in: .whitespaces) // for trimming text: https://www.hackingwithswift.com/example-code/strings/how-to-trim-whitespace-in-a-string
 
-// }
+            // skip if line is empty or first nonwhitespace is #
+            if trimmed.isEmpty || trimmed.first == "#" {
+                continue
+        }
+        lineCount += 1
+    }
+    return .success(lineCount) 
+    
+    } catch {
+        return .failure(NoSuchFileError())
+    }
+
+}
 
 // Write your Quaternion struct here
 
