@@ -75,8 +75,6 @@ public class Exercises {
                         return !trimmedLine.isEmpty() && !trimmedLine.startsWith("#");
                     })
                     .count();
-        } catch (FileNotFoundException error) {
-            throw new FileNotFoundException("No such file");
         }
     }
 }
