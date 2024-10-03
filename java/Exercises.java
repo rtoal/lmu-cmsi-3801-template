@@ -22,35 +22,34 @@ public class Exercises {
         return counts;
     }
 
-    // Write your firstThenLowerCase function here
-    public static Optional<String> firstThenLowerCase(List<String> a, Predicate<String> p) {
-        return a.stream()
-                .filter(p)
+    public static Optional<String> firstThenLowerCase(List<String> strings, Predicate<String> condition) {
+        return strings.stream()
+                .filter(condition)
                 .findFirst()
                 .map(String::toLowerCase);
     }
 
-    // Write your say function here
     public interface SayObject {
         SayObject and(String next);
+
         String phrase();
     }
-    
+
     public static SayObject say() {
         return say("");
     }
-    
+
     public static SayObject say(String initial) {
         return new SayObjectImpl(initial);
     }
-    
+
     private static class SayObjectImpl implements SayObject {
         private final StringBuilder phrase;
-    
+
         private SayObjectImpl(String initial) {
             this.phrase = new StringBuilder(initial != null ? initial : "");
         }
-    
+
         @Override
         public SayObject and(String next) {
             if (next != null) {
@@ -61,26 +60,27 @@ public class Exercises {
             }
             return this;
         }
-    
+
         @Override
         public String phrase() {
             return phrase.toString();
         }
     }
 
-    // Write your line count function here
-    public static long meaningfulLineCount(String filename) throws IOException {
+    public static int meaningfulLineCount(String filename) throws IOException {
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
-            return reader.lines()
-                .filter(line -> !line.trim().isEmpty() && !line.trim().startsWith("#"))
-                .count();
+            return (int) reader.lines()
+                    .filter(line -> {
+                        String trimmedLine = line.trim();
+                        return !trimmedLine.isEmpty() && !trimmedLine.startsWith("#");
+                    })
+                    .count();
         } catch (FileNotFoundException e) {
             throw new FileNotFoundException("No such file");
         }
     }
 }
 
-// Write your Quaternion record class here
 record Quaternion(double a, double b, double c, double d) {
 
     public final static Quaternion ZERO = new Quaternion(0, 0, 0, 0);
@@ -100,11 +100,12 @@ record Quaternion(double a, double b, double c, double d) {
 
     Quaternion times(Quaternion other) {
         return new Quaternion(
-            a * other.a - b * other.b - c * other.c - d * other.d,
-            a * other.b + b * other.a + c * other.d - d * other.c,
-            a * other.c - b * other.d + c * other.a + d * other.b,
-            a * other.d + b * other.c - c * other.b + d * other.a);
+                a * other.a - b * other.b - c * other.c - d * other.d,
+                a * other.b + b * other.a + c * other.d - d * other.c,
+                a * other.c - b * other.d + c * other.a + d * other.b,
+                a * other.d + b * other.c - c * other.b + d * other.a);
     }
+
     public Quaternion conjugate() {
         return new Quaternion(a, -b, -c, -d);
     }
@@ -116,10 +117,14 @@ record Quaternion(double a, double b, double c, double d) {
     public String toString() {
         List<String> terms = new ArrayList<>();
 
-        if (a != 0.0) terms.add(String.valueOf(a));
-        if (b != 0.0) terms.add((b == 1.0 ? "" : b == -1.0 ? "-" : String.valueOf(b)) + "i");
-        if (c != 0.0) terms.add((c == 1.0 ? "" : c == -1.0 ? "-" : String.valueOf(c)) + "j");
-        if (d != 0.0) terms.add((d == 1.0 ? "" : d == -1.0 ? "-" : String.valueOf(d)) + "k");
+        if (a != 0.0)
+            terms.add(String.valueOf(a));
+        if (b != 0.0)
+            terms.add((b == 1.0 ? "" : b == -1.0 ? "-" : String.valueOf(b)) + "i");
+        if (c != 0.0)
+            terms.add((c == 1.0 ? "" : c == -1.0 ? "-" : String.valueOf(c)) + "j");
+        if (d != 0.0)
+            terms.add((d == 1.0 ? "" : d == -1.0 ? "-" : String.valueOf(d)) + "k");
 
         if (terms.isEmpty()) {
             return "0";
@@ -138,11 +143,12 @@ record Quaternion(double a, double b, double c, double d) {
     }
 }
 
-// Write your BinarySearchTree sealed interface and its implementations here
 sealed interface BinarySearchTree permits Empty, Node {
     int size();
-    boolean contains(String value);
-    BinarySearchTree insert(String value);
+
+    boolean contains(String letter);
+
+    BinarySearchTree insert(String letter);
 }
 
 final record Empty() implements BinarySearchTree {
@@ -152,13 +158,13 @@ final record Empty() implements BinarySearchTree {
     }
 
     @Override
-    public boolean contains(String value) {
+    public boolean contains(String letter) {
         return false;
     }
 
     @Override
-    public BinarySearchTree insert(String value) {
-        return new Node(value, this, this);
+    public BinarySearchTree insert(String letter) {
+        return new Node(letter, this, this);
     }
 
     @Override
@@ -168,12 +174,12 @@ final record Empty() implements BinarySearchTree {
 }
 
 final class Node implements BinarySearchTree {
-    private final String value;
+    private final String letter;
     private final BinarySearchTree left;
     private final BinarySearchTree right;
 
-    Node(String value, BinarySearchTree left, BinarySearchTree right) {
-        this.value = value;
+    Node(String letter, BinarySearchTree left, BinarySearchTree right) {
+        this.letter = letter;
         this.left = left;
         this.right = right;
     }
@@ -184,17 +190,16 @@ final class Node implements BinarySearchTree {
     }
 
     @Override
-    public boolean contains(String value) {
-        return this.value.equals(value) || left.contains(value) || right.contains
-        (value);
+    public boolean contains(String letter) {
+        return this.letter.equals(letter) || left.contains(letter) || right.contains(letter);
     }
 
     @Override
-    public BinarySearchTree insert(String value) {
-        if (value.compareTo(this.value) < 0) {
-            return new Node(this.value, left.insert(value), right);
+    public BinarySearchTree insert(String letter) {
+        if (letter.compareTo(this.letter) < 0) {
+            return new Node(this.letter, left.insert(letter), right);
         } else {
-            return new Node(this.value, left, right.insert(value));
+            return new Node(this.letter, left, right.insert(letter));
         }
     }
 
@@ -202,6 +207,6 @@ final class Node implements BinarySearchTree {
     public String toString() {
         String leftString = left instanceof Empty ? "" : left.toString();
         String rightString = right instanceof Empty ? "" : right.toString();
-        return "(" + leftString + value + rightString + ")";
+        return "(" + leftString + letter + rightString + ")";
     }
 }
