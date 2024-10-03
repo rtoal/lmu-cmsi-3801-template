@@ -220,7 +220,7 @@ func * (lhs: Quaternion, rhs: Quaternion) -> Quaternion {
 // Write your Binary Search Tree enum here
 
 
-enum BinarySearchTree {
+enum BinarySearchTree: CustomStringConvertible {
     case empty
     indirect case node(BinarySearchTree, String, BinarySearchTree)
 
@@ -233,32 +233,51 @@ enum BinarySearchTree {
         }
     }
 
-    func insert(_ newValue: String) -> BinarySearchTree {
+    var description: String {
         switch self {
         case .empty:
-            return .node(.empty, newValue, .empty)
-        case let .node(left, value, right):
-            if newValue < value {
-                return .node(left.insert(newValue), value, right)
-            } else if newValue > value {
-                return .node(left, value, right.insert(newValue))
+            return "()"
+        case let .node(left, letter, right):
+            let leftDesc: String = left.description == "()" ? "" : left.description
+            let rightDesc: String = right.description == "()" ? "" : right.description
+            if leftDesc.isEmpty && rightDesc.isEmpty {
+                return "(\(letter))"
+            } else if rightDesc.isEmpty {
+                return "(\(leftDesc)\(letter))"
+            } else if leftDesc.isEmpty {
+                return "(\(letter)\(rightDesc))"
+            } else {
+                return "(\(leftDesc)\(letter)\(rightDesc))"
+            }
+        }
+    }
+
+    func insert(_ newletter: String) -> BinarySearchTree {
+        switch self {
+        case .empty:
+            return .node(.empty, newletter, .empty)
+        case let .node(left, letter, right):
+            if newletter < letter {
+                return .node(left.insert(newletter), letter, right)
+            } else if newletter > letter {
+                return .node(left, letter, right.insert(newletter))
             } else {
                 return self
             }
         }
     }
 
-    func contains(_ searchValue: String) -> Bool {
+    func contains(_ searchletter: String) -> Bool {
         switch self {
         case .empty:
             return false
-        case let .node(left, value, right):
-            if searchValue == value {
+        case let .node(left, letter, right):
+            if searchletter == letter {
                 return true
-            } else if searchValue < value {
-                return left.contains(searchValue)
+            } else if searchletter < letter {
+                return left.contains(searchletter)
             } else {
-                return right.contains(searchValue)
+                return right.contains(searchletter)
             }
         }
     }
