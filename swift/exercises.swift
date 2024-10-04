@@ -3,24 +3,25 @@ import Foundation
 struct NegativeAmountError: Error {}
 struct NoSuchFileError: Error {}
 
-func change(_ amount: Int) -> Result<[Int:Int], NegativeAmountError> {
+func change(_ amount: Int) -> Result<[Int: Int], NegativeAmountError> {
     if amount < 0 {
         return .failure(NegativeAmountError())
     }
-    var (counts, remaining) = ([Int:Int](), amount)
+    var (counts, remaining) = ([Int: Int](), amount)
     for denomination in [25, 10, 5, 1] {
-        (counts[denomination], remaining) = 
+        (counts[denomination], remaining) =
             remaining.quotientAndRemainder(dividingBy: denomination)
     }
     return .success(counts)
 }
 
-func firstThenLowerCase(of array: [String], satisfying predicate: (String) -> Bool) -> String? {
-    return array.first(where: predicate)?.lowercased()
+func firstThenLowerCase(of words: [String], satisfying predicate: (String) -> Bool) -> String? {
+    return words.first(where: predicate)?.lowercased()
 }
 
 struct Say {
     private var words: [String]
+
     init(_ word: String = "") {
         self.words = [word]
     }
@@ -28,13 +29,15 @@ struct Say {
     func and(_ word: String) -> Say {
         var newSay = self
         newSay.words.append(word)
-       
-        return newSay 
+
+        return newSay
     }
+
     var phrase: String {
-        return words.joined(separator: " ") 
+        return words.joined(separator: " ")
     }
 }
+
 func say(_ word: String = "") -> Say {
     return Say(word)
 }
@@ -44,8 +47,8 @@ enum FileError: Error {
     case failedToRead
 }
 
-func meaningfulLineCount(_ filename: String) async -> Result <Int, Error> {
-    
+func meaningfulLineCount(_ filename: String) async -> Result<Int, Error> {
+
     do {
 
         let fileURL = URL(fileURLWithPath: filename)
@@ -54,29 +57,29 @@ func meaningfulLineCount(_ filename: String) async -> Result <Int, Error> {
             return .failure(FileError.fileNotFound)
         }
 
-    var lineCount = 0
+        var lineCount = 0
 
-    for try await line in fileURL.lines {
-        let trimmedLine = line.trimmingCharacters(in: .whitespaces)
+        for try await line in fileURL.lines {
+            let trimmedLine = line.trimmingCharacters(in: .whitespaces)
 
-        if !trimmedLine.isEmpty && !trimmedLine.hasPrefix("#") {
-            lineCount += 1
+            if !trimmedLine.isEmpty && !trimmedLine.hasPrefix("#") {
+                lineCount += 1
             }
         }
 
         return .success(lineCount)
 
-    } catch { 
+    } catch {
 
-    return .failure(FileError.failedToRead)
+        return .failure(FileError.failedToRead)
     }
 }
 
 struct Quaternion: CustomStringConvertible {
-    let a: Double // scalar
-    let b: Double // i
-    let c: Double // j
-    let d: Double // k
+    let a: Double
+    let b: Double
+    let c: Double
+    let d: Double
 
     init(a: Double? = 0, b: Double? = 0, c: Double? = 0, d: Double? = 0) {
         self.a = a ?? 0
@@ -99,44 +102,44 @@ struct Quaternion: CustomStringConvertible {
     }
 
     var description: String {
-	    var components: [String] = []
-		if a != 0 {
-			components.append("\(a)")
-		}
-		if b != 0 {
+        var components: [String] = []
+        if a != 0 {
+            components.append("\(a)")
+        }
+        if b != 0 {
             if b == 1 {
                 components.append("+i")
             } else if b == -1 {
                 components.append("-i")
             } else if b > 0 {
-			    components.append("+\(b)i")
-		    } else {
+                components.append("+\(b)i")
+            } else {
                 components.append("\(b)i")
             }
-        } 
-		if c != 0 {
+        }
+        if c != 0 {
             if c == 1 {
                 components.append("+j")
             } else if c == -1 {
                 components.append("-j")
             } else if c > 0 {
-			    components.append("+\(c)j")
-		    } else {
+                components.append("+\(c)j")
+            } else {
                 components.append("\(c)j")
             }
-        } 
+        }
         if d != 0 {
             if d == 1 {
                 components.append("+k")
             } else if d == -1 {
                 components.append("-k")
             } else if d > 0 {
-			    components.append("+\(d)k")
-		    } else {
+                components.append("+\(d)k")
+            } else {
                 components.append("\(d)k")
             }
-        }    
-    
+        }
+
         if components.isEmpty {
             return "0"
         }
@@ -145,58 +148,55 @@ struct Quaternion: CustomStringConvertible {
         if string_desc.first == "+" {
             string_desc.removeFirst()
         }
-        
+
         return string_desc
     }
 
     static func == (lhs: Quaternion, rhs: Quaternion) -> Bool {
-        return (lhs.a == rhs.a && 
-                lhs.b == rhs.b && 
-                lhs.c == rhs.c && 
-                lhs.d == rhs.d)  
+        return (lhs.a == rhs.a && lhs.b == rhs.b && lhs.c == rhs.c && lhs.d == rhs.d)
     }
 
     static var ZERO: Quaternion {
         return Quaternion(
-            a: 0, 
-            b: 0, 
-            c: 0, 
-            d: 0  
+            a: 0,
+            b: 0,
+            c: 0,
+            d: 0
         )
     }
 
     static var I: Quaternion {
         return Quaternion(
-            a: 0, 
-            b: 1, 
-            c: 0, 
-            d: 0  
+            a: 0,
+            b: 1,
+            c: 0,
+            d: 0
         )
     }
 
     static var J: Quaternion {
         return Quaternion(
-            a: 0, 
-            b: 0, 
-            c: 1, 
-            d: 0  
+            a: 0,
+            b: 0,
+            c: 1,
+            d: 0
         )
     }
 
     static var K: Quaternion {
         return Quaternion(
-            a: 0, 
+            a: 0,
             b: 0,
-            c: 0, 
-            d: 1  
+            c: 0,
+            d: 1
         )
     }
 }
 
 func + (lhs: Quaternion, rhs: Quaternion) -> Quaternion {
     return Quaternion(
-        a: lhs.a + rhs.a, 
-        b: lhs.b + rhs.b, 
+        a: lhs.a + rhs.a,
+        b: lhs.b + rhs.b,
         c: lhs.c + rhs.c,
         d: lhs.d + rhs.d
     )
@@ -207,7 +207,7 @@ func * (lhs: Quaternion, rhs: Quaternion) -> Quaternion {
         a: (lhs.a * rhs.a) - (lhs.b * rhs.b) - (lhs.c * rhs.c) - (lhs.d * rhs.d),
         b: (lhs.a * rhs.b) + (lhs.b * rhs.a) + (lhs.c * rhs.d) - (lhs.d * rhs.c),
         c: (lhs.a * rhs.c) - (lhs.b * rhs.d) + (lhs.c * rhs.a) + (lhs.d * rhs.b),
-        d: (lhs.a * rhs.d) + (lhs.b * rhs.c) - (lhs.c * rhs.b) + (lhs.d * rhs.a) 
+        d: (lhs.a * rhs.d) + (lhs.b * rhs.c) - (lhs.c * rhs.b) + (lhs.d * rhs.a)
     )
 }
 
